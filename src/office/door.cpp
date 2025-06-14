@@ -24,6 +24,34 @@ meme::Door::Door(std::string tex_path, sf::Vector2f possition, sf::Vector2i size
     this->sprite.setPosition(possition);
 }
 
+meme::Door::Door(const Door &orginal)
+{
+    this->light_status = orginal.light_status;
+    this->power_status = orginal.power_status;
+    this->possition = orginal.possition;
+    this->size = orginal.size;
+    this->All_sprite_variants = orginal.All_sprite_variants;
+    this->Used_sprite_variants = orginal.Used_sprite_variants;
+
+    this->texture = orginal.texture;
+    this->sprite.setTexture(this->texture,true);
+    this->sprite.setTextureRect(this->Used_sprite_variants[0]);
+}
+
+meme::Door::Door(Door &&orginal)
+{
+    this->light_status = orginal.light_status;
+    this->power_status = orginal.power_status;
+    this->possition = orginal.possition;
+    this->size = orginal.size;
+    this->All_sprite_variants = orginal.All_sprite_variants;
+    this->Used_sprite_variants = orginal.Used_sprite_variants;
+
+    this->texture = orginal.texture;
+    this->sprite.setTexture(this->texture,true);
+    this->sprite.setTextureRect(this->Used_sprite_variants[0]);
+}
+
 void meme::Door::Open()
 {
     power_status = open;
@@ -35,19 +63,6 @@ void meme::Door::Open()
     {
         sprite.setTextureRect(Used_sprite_variants[0]);
     }
-}
-
-meme::Door::Door(Door& orginal)
-{
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
-
-    this->light_status = orginal.light_status;
-    this->power_status = orginal.power_status;
-    this->possition = orginal.possition;
-    this->size = orginal.size;
-    this->All_sprite_variants = orginal.All_sprite_variants;
-    this->Used_sprite_variants = orginal.Used_sprite_variants;
 }
 
 void meme::Door::Close()

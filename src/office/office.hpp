@@ -12,14 +12,16 @@ namespace meme
 struct office
 {
     office(std::string tex_path, sf::Vector2i size);
-    office(office &orginal);
+    office(const office &orginal);
+    office(office &&orginal);
 
-    std::vector<Button> door_buttons;
-    std::vector<Button> light_buttons;
+    std::vector<Button> buttons;
     std::vector<Door> doors;
+
     sf::Texture texture{};
     sf::Sprite sprite{texture};
     sf::Vector2i size;
+    int assigned_window_number;
 
     void Power_off();
 };

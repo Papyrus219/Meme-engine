@@ -15,7 +15,8 @@ class Button
 {
 public:
     Button(std::string tex_path, sf::Vector2f possition, sf::Vector2i size, std::vector<std::function<void()>> states_functions);
-    Button(Button &orginal);
+    Button(const Button &orginal);
+    Button(Button &&orginal);
 
     std::vector<sf::IntRect> sprite_variants;
 

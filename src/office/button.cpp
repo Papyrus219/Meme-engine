@@ -36,14 +36,28 @@ bool Button::Clicked(sf::Vector2f Mouse_pos)
     return false;
 }
 
-meme::Button::Button(Button& orginal)
+meme::Button::Button(const Button &orginal)
 {
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
-
     this->sprite_variants = orginal.sprite_variants;
     this->states_functions = orginal.states_functions;
 
     this->size = orginal.size;
     this->state = orginal.state;
+
+    this->texture = orginal.texture;
+    this->sprite.setTexture(this->texture,true);
+    this->sprite.setTextureRect(this->sprite_variants[0]);
+}
+
+meme::Button::Button(Button &&orginal)
+{
+    this->sprite_variants = orginal.sprite_variants;
+    this->states_functions = orginal.states_functions;
+
+    this->size = orginal.size;
+    this->state = orginal.state;
+
+    this->texture = orginal.texture;
+    this->sprite.setTexture(this->texture,true);
+    this->sprite.setTextureRect(this->sprite_variants[0]);
 }

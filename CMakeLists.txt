@@ -15,4 +15,4 @@ set(SOURCES ${SRC})
 
 add_executable(Memengine ${SOURCES})
 target_compile_features(Memengine PRIVATE cxx_std_17)
-target_link_libraries(Memengine PRIVATE SFML::Graphics)
+target_link_libraries(Memengine PRIVATE SFML::Graphics SFML::Audio)

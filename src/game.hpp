@@ -7,12 +7,16 @@
 namespace meme
 {
 
-struct Game
+class Game
 {
-    sf::RenderWindow *window;
-    std::vector<office> offices;
+public:
+    std::vector<sf::RenderWindow*> windows;
+    std::vector<meme::office> offices;
 
-    void Render_office();
+    void Game_loop();
+
+private:
+    void Tic();
 };
 
 }

@@ -14,7 +14,8 @@ class Door
 {
 public:
     Door(std::string tex_path, sf::Vector2f possition, sf::Vector2i size, int variants_amount);
-    Door(Door &orginal);
+    Door(const Door &orginal);
+    Door(Door &&orginal);
 
     std::vector<sf::IntRect> All_sprite_variants;
     std::array<sf::IntRect,3> Used_sprite_variants;

@@ -2,7 +2,7 @@
 #include"../exceptions.hpp"
 using namespace meme;
 
-meme::office::office(std::string tex_path, sf::Vector2i size): size{size}
+office::office(std::string tex_path, sf::Vector2i size): size{size}
 {
     if(!texture.loadFromFile(tex_path))
     {
@@ -12,14 +12,26 @@ meme::office::office(std::string tex_path, sf::Vector2i size): size{size}
     this->sprite.setTexture(texture,true);
 }
 
-meme::office::office(office& orginal)
+office::office(const office &orginal)
 {
     this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture);
-
+    this->sprite.setTexture(this->texture,true);
     this->size = orginal.size;
-    for(int i=0;i<orginal.doors.size();i++)
-    {
-        this->doors.push_back(orginal.doors[i]);
-    }
+
+    for(auto door : orginal.doors)
+        this->doors.push_back(door);
+    for(auto button : orginal.buttons)
+        this->buttons.push_back(button);
+}
+
+office::office(office &&orginal)
+{
+    this->texture = orginal.texture;
+    this->sprite.setTexture(this->texture,true);
+    this->size = orginal.size;
+
+    for(auto door : orginal.doors)
+        this->doors.push_back(door);
+    for(auto button : orginal.buttons)
+        this->buttons.push_back(button);
 }

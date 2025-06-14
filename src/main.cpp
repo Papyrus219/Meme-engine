@@ -4,7 +4,6 @@
 
 int main()
 {
-
 	meme::Game game;
 
 	try
@@ -13,7 +12,7 @@ int main()
 		game.window->create(sf::VideoMode{{1200,1000}},"office");
 
 		game.offices.push_back(meme::office{"../../img/office.png",sf::Vector2i{1200,1000}});
-		game.offices[0].doors.push_back(meme::Door{"../../img/door.png",{100,200},{1020,340},5});
+		game.offices[0].doors.push_back(meme::Door{"../../img/door.png",{150,700},{150,700},5});
 	}
 	catch(meme::Exeption x)
 	{

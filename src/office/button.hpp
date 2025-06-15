@@ -15,19 +15,20 @@ class Button
 {
 public:
     Button(std::string tex_path, sf::Vector2f possition, sf::Vector2i size, std::vector<std::function<void()>> states_functions);
+    Button() = default;
     Button(const Button &orginal);
     Button(Button &&orginal);
 
-    std::vector<sf::IntRect> sprite_variants;
+    std::vector<sf::IntRect> sprite_variants{};
 
     const sf::Sprite* Get_sprite_ptr(){return &sprite;};
     bool Clicked(sf::Vector2f Mouse_pos);
-private:
-    sf::Vector2f possition;
-    sf::Vector2f size;
+protected:
+    sf::Vector2f possition{};
+    sf::Vector2f size{};
     sf::Texture texture{};
     sf::Sprite sprite{texture};
-    std::vector<std::function<void()>> states_functions;
+    std::vector<std::function<void()>> states_functions{};
     int state{};
 };
 

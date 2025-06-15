@@ -19,6 +19,32 @@ Button::Button(std::string tex_path, sf::Vector2f possition, sf::Vector2i size, 
     this->sprite.setTextureRect(sprite_variants[0]);
 }
 
+Button::Button(const Button &orginal)
+{
+    this->sprite_variants = orginal.sprite_variants;
+    this->states_functions = orginal.states_functions;
+
+    this->size = orginal.size;
+    this->state = orginal.state;
+
+    this->texture = orginal.texture;
+    this->sprite.setTexture(this->texture,true);
+    this->sprite.setTextureRect(this->sprite_variants[0]);
+}
+
+Button::Button(Button &&orginal)
+{
+    this->sprite_variants = orginal.sprite_variants;
+    this->states_functions = orginal.states_functions;
+
+    this->size = orginal.size;
+    this->state = orginal.state;
+
+    this->texture = orginal.texture;
+    this->sprite.setTexture(this->texture,true);
+    this->sprite.setTextureRect(this->sprite_variants[0]);
+}
+
 bool Button::Clicked(sf::Vector2f Mouse_pos)
 {
     if(sprite.getGlobalBounds().contains(Mouse_pos))
@@ -34,30 +60,4 @@ bool Button::Clicked(sf::Vector2f Mouse_pos)
     }
 
     return false;
-}
-
-meme::Button::Button(const Button &orginal)
-{
-    this->sprite_variants = orginal.sprite_variants;
-    this->states_functions = orginal.states_functions;
-
-    this->size = orginal.size;
-    this->state = orginal.state;
-
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
-    this->sprite.setTextureRect(this->sprite_variants[0]);
-}
-
-meme::Button::Button(Button &&orginal)
-{
-    this->sprite_variants = orginal.sprite_variants;
-    this->states_functions = orginal.states_functions;
-
-    this->size = orginal.size;
-    this->state = orginal.state;
-
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
-    this->sprite.setTextureRect(this->sprite_variants[0]);
 }

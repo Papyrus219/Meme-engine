@@ -17,6 +17,5 @@ void Game::Free_memory(int &window_id)
     delete windows[window_id];
     windows[window_id] = nullptr;
     windows.erase(windows.begin() + window_id);
-
     window_id = 0;
 }

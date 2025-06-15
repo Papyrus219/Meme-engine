@@ -11,8 +11,11 @@ namespace meme
  */
 class Menu
 {
-    Menu(std::string tex_path, std::string button_tex_path, int button_amount, sf::Vector2f button_size);
-    Menu(std::string tex_path, std::string button_tex_path, int button_amount, std::vector<sf::Vector2f> button_sizes);
+public:
+    Menu(std::string tex_path, sf::Vector2i size);
+
+    void Make_buttons ( std::string button_tex_path, int button_amount, sf::Vector2i button_size, sf::Vector2f possition );
+    void Make_buttons ( std::string button_tex_path, int button_amount, std::vector<sf::Vector2i> button_sizes, std::vector<sf::Vector2f> possitions );
 
     void New_game();
     void Continue();
@@ -23,6 +26,14 @@ class Menu
     std::vector<Menu_button> option_buttons{};
     sf::RenderWindow *assigned_window;
     int window_id;
+
+protected:
+    sf::Texture texture{};
+    sf::Sprite sprite{texture};
+    sf::Vector2i size{};
+
+    std::vector<sf::Texture> button_textures;
+
 };
 
 }

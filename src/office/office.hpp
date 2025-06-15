@@ -21,7 +21,8 @@ struct office
     sf::Texture texture{};
     sf::Sprite sprite{texture};
     sf::Vector2i size;
-    int assigned_window_number;
+    sf::RenderWindow *assigned_window;
+    int window_id;
 
     void Power_off();
 };

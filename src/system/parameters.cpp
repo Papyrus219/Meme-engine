@@ -1,3 +1,3 @@
-#include "parameters.h"
+#include "parameters.hpp"
 
 using namespace meme;

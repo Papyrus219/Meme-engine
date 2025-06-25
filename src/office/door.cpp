@@ -3,7 +3,7 @@
 
 using namespace meme;
 
-meme::Door::Door(std::string tex_path, sf::Vector2f possition, sf::Vector2i size, int variants_amount) : possition{possition}, size{size}
+meme::Door::Door(std::string tex_path, sf::Vector2f possition, sf::Vector2i size, int variants_amount):    door_sound{nullptr}, light_sound{nullptr}, possition{possition}, size{size}
 {
     if(!this->texture.loadFromFile(tex_path))
     {
@@ -22,6 +22,8 @@ meme::Door::Door(std::string tex_path, sf::Vector2f possition, sf::Vector2i size
     this->sprite.setTexture(texture,true);
     this->sprite.setTextureRect(Used_sprite_variants[0]);
     this->sprite.setPosition(possition);
+
+    this->light_sound->setLooping(true);
 }
 
 meme::Door::Door(const Door &orginal)
@@ -32,6 +34,10 @@ meme::Door::Door(const Door &orginal)
     this->size = orginal.size;
     this->All_sprite_variants = orginal.All_sprite_variants;
     this->Used_sprite_variants = orginal.Used_sprite_variants;
+
+    this->door_sound = orginal.door_sound;
+    this->light_sound = orginal.light_sound;
+    this->light_sound->setLooping(true);
 
     this->texture = orginal.texture;
     this->sprite.setTexture(this->texture,true);
@@ -47,6 +53,10 @@ meme::Door::Door(Door &&orginal)
     this->All_sprite_variants = orginal.All_sprite_variants;
     this->Used_sprite_variants = orginal.Used_sprite_variants;
 
+    this->door_sound = orginal.door_sound;
+    this->light_sound = orginal.light_sound;
+    this->light_sound->setLooping(true);
+
     this->texture = orginal.texture;
     this->sprite.setTexture(this->texture,true);
     this->sprite.setTextureRect(this->Used_sprite_variants[0]);
@@ -54,25 +64,31 @@ meme::Door::Door(Door &&orginal)
 
 void meme::Door::Open()
 {
+    if(door_sound != nullptr) door_sound->play();
+
     power_status = open;
     if(light_status == up)
     {
-        sprite.setTextureRect(Used_sprite_variants[1]);
+        sprite.setTextureRect(Used_sprite_variants[0]);
     }
     else
     {
-        sprite.setTextureRect(Used_sprite_variants[0]);
+        sprite.setTextureRect(Used_sprite_variants[2]);
     }
 }
 
-void meme::Door::Close()
+void meme::Door::Close(void)
 {
+    if(door_sound != nullptr) door_sound->play();
+
     power_status = close;
-    sprite.setTextureRect(Used_sprite_variants[2]);
+    sprite.setTextureRect(Used_sprite_variants[1]);
 }
 
 void meme::Door::Light_down()
 {
+    if(light_sound != nullptr) light_sound->stop();
+
     light_status = down;
     if(power_status == open)
     {
@@ -82,10 +98,12 @@ void meme::Door::Light_down()
 
 void meme::Door::Light_up()
 {
+    if(light_sound != nullptr) light_sound->play();
+
     light_status = up;
     if(power_status == open)
     {
-        sprite.setTextureRect(Used_sprite_variants[1]);
+        sprite.setTextureRect(Used_sprite_variants[2]);
     }
 }
 

@@ -2,7 +2,7 @@
 #include"../exceptions.hpp"
 using namespace meme;
 
-office::office(std::string tex_path, sf::Vector2i size): size{size}
+Office::Office(std::string tex_path, sf::Vector2i size): size{size}
 {
     if(!texture.loadFromFile(tex_path))
     {
@@ -10,9 +10,11 @@ office::office(std::string tex_path, sf::Vector2i size): size{size}
     }
 
     this->sprite.setTexture(texture,true);
+
+    view = sf::View{{size.x*0.5f, size.y*0.5f} ,{size.x*0.5f, size.y*1.0f}};
 }
 
-office::office(const office &orginal)
+Office::Office(const Office &orginal)
 {
     this->texture = orginal.texture;
     this->sprite.setTexture(this->texture,true);
@@ -24,7 +26,7 @@ office::office(const office &orginal)
         this->buttons.push_back(button);
 }
 
-office::office(office &&orginal)
+Office::Office(Office &&orginal)
 {
     this->texture = orginal.texture;
     this->sprite.setTexture(this->texture,true);
@@ -34,4 +36,47 @@ office::office(office &&orginal)
         this->doors.push_back(door);
     for(auto button : orginal.buttons)
         this->buttons.push_back(button);
+}
+
+void Office::Render()
+{
+    if(assigned_window == nullptr)
+    {
+        throw Exeption{"Office render error: None window assigned!\n"};
+    }
+
+    //assigned_window->setView(view);
+
+
+    assigned_window->draw(sprite);
+    for(auto &door : doors)
+    {
+        assigned_window->draw(*door.Get_sprite_ptr());
+    }
+    for(auto &button : buttons)
+    {
+        assigned_window->draw(*button.Get_sprite_ptr());
+    }
+
+    assigned_window->setView(assigned_window->getDefaultView());
+}
+
+void Office::Event()
+{
+    while (const std::optional event = assigned_window->pollEvent())
+    {
+        if(event->is<sf::Event::MouseButtonPressed>())
+        {
+            sf::Vector2f MousePos{sf::Mouse::getPosition(*assigned_window)};
+            for(auto &button : buttons)
+            {
+                button.Clicked(MousePos);
+            }
+        }
+        else if (event->is<sf::Event::Closed>())
+        {
+            assigned_window->close();
+            return;
+        }
+    }
 }

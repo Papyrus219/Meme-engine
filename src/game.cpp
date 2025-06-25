@@ -1,21 +1,77 @@
 #include"game.hpp"
 using namespace meme;
 
-std::pair<sf::RenderWindow *, int> Game::Resereve_new_window ( std::string window_name, sf::VideoMode window_size )
+Game::Game(std::string audio_path): telephone{audio_path}
+{
+}
+
+void Game::Resereve_new_window ( Scene &scene, std::string window_name, sf::VideoMode window_size )
 {
     sf::RenderWindow *tmp_window;
     tmp_window = new sf::RenderWindow;
     tmp_window->create(window_size,window_name);
 
-    windows.push_back(tmp_window);
+    for(int i=0;i<windows.size();i++)
+    {
+        if(windows[i].first == nullptr)
+        {
+            windows[i].first = tmp_window;
+            windows[i].second = &scene;
+            scene.assigned_window = tmp_window;
+            scene.window_id = i;
 
-    return {tmp_window, windows.size()-1};
+            return;
+        }
+    }
+
+    windows.push_back({tmp_window, &scene});
+    scene.assigned_window = tmp_window;
+    scene.window_id = windows.size()-1;
+
+    return;
 }
 
-void Game::Free_memory(int &window_id)
+void Game::Free_window(int window_id)
 {
-    delete windows[window_id];
-    windows[window_id] = nullptr;
-    windows.erase(windows.begin() + window_id);
-    window_id = 0;
+    delete windows[window_id].first;
+    windows[window_id].second->assigned_window = nullptr;
+    windows[window_id].second->window_id = -1;
+    windows[window_id] = {nullptr,nullptr};
 }
+
+bool Game::Is_any_window_open()
+{
+    for(auto &[window,scene] : windows)
+        if(window != nullptr)
+            return true;
+
+    return false;
+}
+
+
+void Game::Render_windows()
+{
+    for(auto &[window,scene] : windows)
+        if(window != nullptr)
+        {
+            window->clear();
+            scene->Render();
+            window->display();
+        }
+}
+
+void Game::Events()
+{
+    for(int i=0;i<windows.size();i++)
+    {
+        auto &[window,scene] = windows[i];
+
+        if(window != nullptr)
+        {
+            scene->Event();
+            if(!window->isOpen())
+                Free_window(i);
+        }
+    }
+}
+

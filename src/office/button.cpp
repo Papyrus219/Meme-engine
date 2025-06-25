@@ -1,5 +1,6 @@
 #include "button.hpp"
 #include"../exceptions.hpp"
+
 using namespace meme;
 
 Button::Button(std::string tex_path, sf::Vector2f possition, sf::Vector2i size, std::vector<std::function<void()>> states_functions): possition{possition}, states_functions{states_functions}

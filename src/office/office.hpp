@@ -5,15 +5,16 @@
 #include<vector>
 #include"button.hpp"
 #include"door.hpp"
+#include"../system/scene.hpp"
 
 namespace meme
 {
 
-struct office
+struct Office final : public Scene
 {
-    office(std::string tex_path, sf::Vector2i size);
-    office(const office &orginal);
-    office(office &&orginal);
+    Office(std::string tex_path, sf::Vector2i size);
+    Office(const Office &orginal);
+    Office(Office &&orginal);
 
     std::vector<Button> buttons;
     std::vector<Door> doors;
@@ -21,9 +22,10 @@ struct office
     sf::Texture texture{};
     sf::Sprite sprite{texture};
     sf::Vector2i size;
-    sf::RenderWindow *assigned_window;
-    int window_id;
+    sf::View view{};
 
+    void Render() override final;
+    void Event() override final;
     void Power_off();
 };
 

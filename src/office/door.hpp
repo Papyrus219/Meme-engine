@@ -2,6 +2,7 @@
 #define MEME_DOOR_H
 
 #include<SFML/Graphics.hpp>
+#include<SFML/Audio.hpp>
 #include<array>
 
 namespace meme
@@ -19,6 +20,8 @@ public:
 
     std::vector<sf::IntRect> All_sprite_variants;
     std::array<sf::IntRect,3> Used_sprite_variants;
+    sf::Sound *door_sound;
+    sf::Sound *light_sound;
 
     void Open();
     void Close();

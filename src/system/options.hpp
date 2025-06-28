@@ -16,7 +16,7 @@ struct Options: public Scene
     Options(std::string tex_path, sf::Vector2i size, Telephone &telephone);
 
     void Up(int &x);
-    void Dowm(int &x);
+    void Down(int &x);
     void Update();
     void Render() override;
     void Event() override;

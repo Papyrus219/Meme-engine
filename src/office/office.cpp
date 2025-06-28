@@ -67,10 +67,13 @@ void Office::Event()
     {
         if(event->is<sf::Event::MouseButtonPressed>())
         {
-            sf::Vector2f MousePos{sf::Mouse::getPosition(*assigned_window)};
-            for(auto &button : buttons)
+            if(!power_off)
             {
-                button.Clicked(MousePos);
+                sf::Vector2f MousePos{sf::Mouse::getPosition(*assigned_window)};
+                for(auto &button : buttons)
+                {
+                    button.Clicked(MousePos);
+                }
             }
         }
         else if (event->is<sf::Event::Closed>())

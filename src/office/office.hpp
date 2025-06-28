@@ -23,6 +23,7 @@ struct Office final : public Scene
     sf::Sprite sprite{texture};
     sf::Vector2i size;
     sf::View view{};
+    bool power_off;
 
     void Render() override final;
     void Event() override final;

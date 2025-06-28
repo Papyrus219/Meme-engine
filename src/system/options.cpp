@@ -17,7 +17,7 @@ void Options::Up(int& x)
     if(x+5 <= 100) x+=5;
 }
 
-void Options::Dowm(int& x)
+void Options::Down(int& x)
 {
     if(x-5 >= 0) x-=5;
 }

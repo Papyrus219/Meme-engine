@@ -1,7 +1,7 @@
 #include<iostream>
+#include<functional>
 #include"game.hpp"
 #include"exceptions.hpp"
-#include<functional>
 
 int main()
 {
@@ -12,18 +12,42 @@ int main()
 		game.telephone.Load_sound_effects(2);
 
 		game.offices.push_back(meme::Office{"../../img/office.png",sf::Vector2i{1200,1000}});
-		game.offices[0].doors.push_back(meme::Door{"../../img/door.png",{150,700},{150,700},5});
-		game.offices[0].doors[0].door_sound = game.telephone.Get_sound_effect_ptr(0);
-		game.offices[0].doors[0].light_sound = game.telephone.Get_sound_effect_ptr(1);
 
-		std::function<void()> function1, function2;
-		function1 = std::bind(&meme::Door::Close , &game.offices[0].doors[0]);
-		function2 = std::bind(&meme::Door::Open, &game.offices[0].doors[0]);
+		meme::Office &office1 = game.offices[0];
 
-		game.offices[0].buttons.emplace_back(meme::Button{"../../img/button.png",{500,400}, {53,50}, {function1,function2}});
+		game.Resereve_new_window(office1,"Office",sf::VideoMode{{1200,1000}});
 
-		game.Resereve_new_window(game.offices[0],"Office",sf::VideoMode{{1200,1000}});
-		std::cerr << game.offices[0].window_id;
+		office1.Load_door_textures("../../img/doors",1);
+		office1.Load_button_textures("../../img/buttons",1);
+
+		office1.doors.push_back(meme::Door{game.offices[0].door_textures[0],{200,600},{150,700},5});
+		office1.doors.push_back(meme::Door{game.offices[0].door_textures[0],{1000,400},{150,700},5});
+
+		meme::Door &door1 = office1.doors[0];
+		meme::Door &door2 = office1.doors[1];
+
+		door1.door_sound = game.telephone.Get_sound_effect_ptr(0);
+		door1.light_sound = game.telephone.Get_sound_effect_ptr(1);
+		door2.door_sound = game.telephone.Get_sound_effect_ptr(0);
+		door2.light_sound = game.telephone.Get_sound_effect_ptr(1);
+
+		auto sound = game.telephone.Get_sound_effect_ptr(0);
+
+		std::function<void()> door_f1_cl = std::bind(&meme::Door::Close, &door1);
+		std::function<void()> door_f1_op = std::bind(&meme::Door::Open, &door1);
+		std::function<void()> door_f2_cl = std::bind(&meme::Door::Close, &door2);
+		std::function<void()> door_f2_op = std::bind(&meme::Door::Open, &door2);
+
+		office1.buttons.push_back(meme::Button{office1.button_textures[0],{350,450},{28,25},{door_f1_op,door_f1_cl}});
+		office1.buttons.push_back(meme::Button{office1.button_textures[0],{1050,750},{28,25},{door_f2_op,door_f2_cl}});
+
+		std::function<void()> door_f1_lu = std::bind(&meme::Door::Light_up, &door1);
+		std::function<void()> door_f1_ld = std::bind(&meme::Door::Light_down, &door1);
+		std::function<void()> door_f2_lu = std::bind(&meme::Door::Light_up, &door2);
+		std::function<void()> door_f2_ld = std::bind(&meme::Door::Light_down, &door2);
+
+		office1.buttons.push_back(meme::Button{office1.button_textures[0],{350,500},{28,25},{door_f1_ld,door_f1_lu}});
+		office1.buttons.push_back(meme::Button{office1.button_textures[0],{1050,800},{28,25},{door_f2_ld,door_f2_lu}});
 	}
 	catch(meme::Exeption x)
 	{
@@ -39,3 +63,4 @@ int main()
 
 	return 0;
 }
+

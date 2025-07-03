@@ -18,8 +18,8 @@ struct Options: public Scene
     void Up(int &x);
     void Down(int &x);
     void Update();
-    void Render() override;
-    void Event() override;
+    //void Render() override;
+    //void Event() override;
 
     std::vector<Menu_button> buttons;
     int jumpscare_volume{};

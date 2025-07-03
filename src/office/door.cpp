@@ -36,6 +36,7 @@ meme::Door::Door(const Door &orginal)
     this->texture_ptr = orginal.texture_ptr;
     this->sprite.setTexture(*this->texture_ptr,true);
     this->sprite.setTextureRect(this->Used_sprite_variants[0]);
+    this->sprite.setPosition(this->possition);
 }
 
 meme::Door::Door(Door &&orginal)
@@ -53,12 +54,11 @@ meme::Door::Door(Door &&orginal)
     this->texture_ptr = orginal.texture_ptr;
     this->sprite.setTexture(*this->texture_ptr,true);
     this->sprite.setTextureRect(this->Used_sprite_variants[0]);
+    this->sprite.setPosition(this->possition);
 }
 
 void meme::Door::Open()
 {
-    if(door_sound != nullptr) door_sound->play();
-
     power_status = open;
     if(light_status == up)
     {
@@ -93,6 +93,7 @@ void meme::Door::Light_up()
 {
     if(light_sound != nullptr)
     {
+        light_sound->setLooping(true);
         light_sound->play();
     }
 

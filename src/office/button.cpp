@@ -24,10 +24,12 @@ Button::Button(const Button &orginal)
 
     this->size = orginal.size;
     this->state = orginal.state;
+    this->possition = orginal.possition;
 
     this->texture_ptr = orginal.texture_ptr;
     this->sprite.setTexture(*this->texture_ptr,true);
     this->sprite.setTextureRect(this->sprite_variants[0]);
+    this->sprite.setPosition(this->possition);
 }
 
 Button::Button(Button &&orginal)
@@ -37,10 +39,12 @@ Button::Button(Button &&orginal)
 
     this->size = orginal.size;
     this->state = orginal.state;
+    this->possition = orginal.possition;
 
     this->texture_ptr = orginal.texture_ptr;
     this->sprite.setTexture(*this->texture_ptr,true);
     this->sprite.setTextureRect(this->sprite_variants[0]);
+    this->sprite.setPosition(this->possition);
 }
 
 bool Button::Clicked(sf::Vector2f Mouse_pos)

@@ -14,7 +14,7 @@ namespace meme
 class Door
 {
 public:
-    Door(std::string tex_path, sf::Vector2f possition, sf::Vector2i size, int variants_amount);
+    Door(sf::Texture &texture, sf::Vector2f possition, sf::Vector2i size, int variants_amount);
     Door(const Door &orginal);
     Door(Door &&orginal);
 
@@ -35,8 +35,9 @@ public:
 private:
     sf::Vector2f possition;
     sf::Vector2f size;
-    sf::Texture texture{};
-    sf::Sprite sprite{texture};
+    sf::Texture *texture_ptr{};
+    sf::Texture tmp_texture;
+    sf::Sprite sprite{tmp_texture};
 
     enum power_states{open,close};
     enum light_states{up,down};

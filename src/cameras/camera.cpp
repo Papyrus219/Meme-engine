@@ -1,9 +1,15 @@
-#include "camera.h"
-#include "exceptions.hpp"
+#include "camera.hpp"
+#include "../exceptions.hpp"
 
 using namespace meme;
 
 int Camera::cameras_amount{};
+
+int Camera::get_cameras_amount()
+{
+    return cameras_amount;
+}
+
 
 Camera::Camera(sf::Texture &texture_source, sf::IntRect texture_fragment ,sf::Vector2i size, std::vector<int> variants_val): texture_ptr{&texture_source}, size{size}
 {

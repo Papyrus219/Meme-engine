@@ -3,12 +3,9 @@
 
 using namespace meme;
 
-Button::Button(std::string tex_path, sf::Vector2f possition, sf::Vector2i size, std::vector<std::function<void()>> states_functions): possition{possition}, states_functions{states_functions}
+Button::Button(sf::Texture &texture, sf::Vector2f possition, sf::Vector2i size, std::vector<std::function<void()>> states_functions): possition{possition}, states_functions{states_functions}
 {
-    if(!this->texture.loadFromFile(tex_path))
-    {
-        throw Exeption{"Failed to load button texture!\n"};
-    }
+    this->texture_ptr = &texture;
 
     this->sprite.setTexture(texture,true);
     this->sprite.setPosition(possition);
@@ -28,8 +25,8 @@ Button::Button(const Button &orginal)
     this->size = orginal.size;
     this->state = orginal.state;
 
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
+    this->texture_ptr = orginal.texture_ptr;
+    this->sprite.setTexture(*this->texture_ptr,true);
     this->sprite.setTextureRect(this->sprite_variants[0]);
 }
 
@@ -41,8 +38,8 @@ Button::Button(Button &&orginal)
     this->size = orginal.size;
     this->state = orginal.state;
 
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
+    this->texture_ptr = orginal.texture_ptr;
+    this->sprite.setTexture(*this->texture_ptr,true);
     this->sprite.setTextureRect(this->sprite_variants[0]);
 }
 

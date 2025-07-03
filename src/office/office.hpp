@@ -19,11 +19,17 @@ struct Office final : public Scene
     std::vector<Button> buttons;
     std::vector<Door> doors;
 
+    std::vector<sf::Texture> button_textures;
+    std::vector<sf::Texture> door_textures;
+
     sf::Texture texture{};
     sf::Sprite sprite{texture};
     sf::Vector2i size;
     sf::View view{};
     bool power_off;
+
+    void Load_button_textures(std::string path, int amount);
+    void Load_door_textures(std::string path, int amount);
 
     void Render() override final;
     void Event() override final;

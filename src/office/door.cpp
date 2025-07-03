@@ -3,12 +3,9 @@
 
 using namespace meme;
 
-meme::Door::Door(std::string tex_path, sf::Vector2f possition, sf::Vector2i size, int variants_amount):    door_sound{nullptr}, light_sound{nullptr}, possition{possition}, size{size}
+meme::Door::Door(sf::Texture &texture, sf::Vector2f possition, sf::Vector2i size, int variants_amount):    door_sound{nullptr}, light_sound{nullptr}, possition{possition}, size{size}
 {
-    if(!this->texture.loadFromFile(tex_path))
-    {
-        throw Exeption{"Failed to load door texture!\n"};
-    }
+    this->texture_ptr = &texture;
 
     for(int i=0;i<variants_amount;i++)
     {
@@ -19,11 +16,9 @@ meme::Door::Door(std::string tex_path, sf::Vector2f possition, sf::Vector2i size
         Used_sprite_variants[i] = All_sprite_variants[i];
     }
 
-    this->sprite.setTexture(texture,true);
+    this->sprite.setTexture(*texture_ptr,true);
     this->sprite.setTextureRect(Used_sprite_variants[0]);
     this->sprite.setPosition(possition);
-
-    this->light_sound->setLooping(true);
 }
 
 meme::Door::Door(const Door &orginal)
@@ -37,10 +32,9 @@ meme::Door::Door(const Door &orginal)
 
     this->door_sound = orginal.door_sound;
     this->light_sound = orginal.light_sound;
-    this->light_sound->setLooping(true);
 
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
+    this->texture_ptr = orginal.texture_ptr;
+    this->sprite.setTexture(*this->texture_ptr,true);
     this->sprite.setTextureRect(this->Used_sprite_variants[0]);
 }
 
@@ -55,10 +49,9 @@ meme::Door::Door(Door &&orginal)
 
     this->door_sound = orginal.door_sound;
     this->light_sound = orginal.light_sound;
-    this->light_sound->setLooping(true);
 
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
+    this->texture_ptr = orginal.texture_ptr;
+    this->sprite.setTexture(*this->texture_ptr,true);
     this->sprite.setTextureRect(this->Used_sprite_variants[0]);
 }
 
@@ -98,7 +91,10 @@ void meme::Door::Light_down()
 
 void meme::Door::Light_up()
 {
-    if(light_sound != nullptr) light_sound->play();
+    if(light_sound != nullptr)
+    {
+        light_sound->play();
+    }
 
     light_status = up;
     if(power_status == open)

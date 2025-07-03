@@ -14,7 +14,7 @@ namespace meme
 class Button
 {
 public:
-    Button(std::string tex_path, sf::Vector2f possition, sf::Vector2i size, std::vector<std::function<void()>> states_functions);
+    Button(sf::Texture &texture, sf::Vector2f possition, sf::Vector2i size, std::vector<std::function<void()>> states_functions);
     Button() = default;
     Button(const Button &orginal);
     Button(Button &&orginal);
@@ -26,8 +26,9 @@ public:
 protected:
     sf::Vector2f possition{};
     sf::Vector2f size{};
-    sf::Texture texture{};
-    sf::Sprite sprite{texture};
+    sf::Texture *texture_ptr{};
+    sf::Texture tmp_texture;
+    sf::Sprite sprite{tmp_texture};
     std::vector<std::function<void()>> states_functions{};
     int state{};
 };

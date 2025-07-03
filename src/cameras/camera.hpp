@@ -23,6 +23,7 @@ public:
     sf::Texture *texture_ptr;
     sf::Vector2f size;
 
+    static int get_cameras_amount();
     sf::IntRect Get_camera();
     void Move_in(Animatron anim);
     void Move_out(Animatron anim);

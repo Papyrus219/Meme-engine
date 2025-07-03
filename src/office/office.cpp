@@ -83,3 +83,31 @@ void Office::Event()
         }
     }
 }
+
+void Office::Load_button_textures ( std::string path, int amount )
+{
+    button_textures.clear();
+
+    for(int i=1;i<=amount;i++)
+    {
+        button_textures.push_back(sf::Texture{});
+        if(!button_textures[i-1].loadFromFile(path + "/button" + std::to_string(i) + ".png"))
+        {
+            throw Exeption{"Failed to load button texture number" + std::to_string(i) + "!"};
+        }
+    }
+}
+
+void Office::Load_door_textures ( std::string path, int amount )
+{
+    door_textures.clear();
+
+    for(int i=1;i<=amount;i++)
+    {
+        door_textures.push_back(sf::Texture{});
+        if(!door_textures[i-1].loadFromFile(path + "/door" + std::to_string(i) + ".png"))
+        {
+            throw Exeption{"Failed to load door texture number" + std::to_string(i) + "!"};
+        }
+    }
+}

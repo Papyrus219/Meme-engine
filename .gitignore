@@ -34,4 +34,5 @@
 *.kdev
 *.kdev4
 build/
+audio/
 brainfuck

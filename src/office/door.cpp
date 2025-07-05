@@ -3,7 +3,7 @@
 
 using namespace meme;
 
-meme::Door::Door(sf::Texture &texture, sf::Vector2f possition, sf::Vector2i size, int variants_amount):    door_sound{nullptr}, light_sound{nullptr}, possition{possition}, size{size}
+meme::Door::Door(sf::Texture &texture, sf::Vector2f possition, sf::Vector2i size, int variants_amount, bool flip):    door_sound{nullptr}, light_sound{nullptr}, possition{possition}, size{size}, flip{flip}
 {
     this->texture_ptr = &texture;
 
@@ -19,6 +19,11 @@ meme::Door::Door(sf::Texture &texture, sf::Vector2f possition, sf::Vector2i size
     this->sprite.setTexture(*texture_ptr,true);
     this->sprite.setTextureRect(Used_sprite_variants[0]);
     this->sprite.setPosition(possition);
+
+    if(this->flip)
+    {
+        this->sprite.setScale({-1.0,1.0});
+    }
 }
 
 meme::Door::Door(const Door &orginal)
@@ -29,6 +34,7 @@ meme::Door::Door(const Door &orginal)
     this->size = orginal.size;
     this->All_sprite_variants = orginal.All_sprite_variants;
     this->Used_sprite_variants = orginal.Used_sprite_variants;
+    this->flip = orginal.flip;
 
     this->door_sound = orginal.door_sound;
     this->light_sound = orginal.light_sound;
@@ -37,6 +43,11 @@ meme::Door::Door(const Door &orginal)
     this->sprite.setTexture(*this->texture_ptr,true);
     this->sprite.setTextureRect(this->Used_sprite_variants[0]);
     this->sprite.setPosition(this->possition);
+
+    if(this->flip)
+    {
+        this->sprite.setScale({-1.0,1.0});
+    }
 }
 
 meme::Door::Door(Door &&orginal)
@@ -47,6 +58,7 @@ meme::Door::Door(Door &&orginal)
     this->size = orginal.size;
     this->All_sprite_variants = orginal.All_sprite_variants;
     this->Used_sprite_variants = orginal.Used_sprite_variants;
+    this->flip = orginal.flip;
 
     this->door_sound = orginal.door_sound;
     this->light_sound = orginal.light_sound;
@@ -55,6 +67,11 @@ meme::Door::Door(Door &&orginal)
     this->sprite.setTexture(*this->texture_ptr,true);
     this->sprite.setTextureRect(this->Used_sprite_variants[0]);
     this->sprite.setPosition(this->possition);
+
+    if(this->flip)
+    {
+        this->sprite.setScale({-1.0,1.0});
+    }
 }
 
 void meme::Door::Open()

@@ -20,8 +20,8 @@ int main()
 		office1.Load_door_textures("../../img/doors",1);
 		office1.Load_button_textures("../../img/buttons",1);
 
-		office1.doors.push_back(meme::Door{game.offices[0].door_textures[0],{200,600},{150,700},5});
-		office1.doors.push_back(meme::Door{game.offices[0].door_textures[0],{1000,400},{150,700},5});
+		office1.doors.push_back(meme::Door{game.offices[0].door_textures[0],{175,350},{150,700},5,true});
+		office1.doors.push_back(meme::Door{game.offices[0].door_textures[0],{1020,340},{150,700},5});
 
 		meme::Door &door1 = office1.doors[0];
 		meme::Door &door2 = office1.doors[1];
@@ -38,16 +38,16 @@ int main()
 		std::function<void()> door_f2_cl = std::bind(&meme::Door::Close, &door2);
 		std::function<void()> door_f2_op = std::bind(&meme::Door::Open, &door2);
 
-		office1.buttons.push_back(meme::Button{office1.button_textures[0],{350,450},{28,25},{door_f1_op,door_f1_cl}});
-		office1.buttons.push_back(meme::Button{office1.button_textures[0],{1050,750},{28,25},{door_f2_op,door_f2_cl}});
+		office1.buttons.push_back(meme::Button{office1.button_textures[0],{200,400},{28,25},{door_f1_op,door_f1_cl}});
+		office1.buttons.push_back(meme::Button{office1.button_textures[0],{970,400},{28,25},{door_f2_op,door_f2_cl}});
 
 		std::function<void()> door_f1_lu = std::bind(&meme::Door::Light_up, &door1);
 		std::function<void()> door_f1_ld = std::bind(&meme::Door::Light_down, &door1);
 		std::function<void()> door_f2_lu = std::bind(&meme::Door::Light_up, &door2);
 		std::function<void()> door_f2_ld = std::bind(&meme::Door::Light_down, &door2);
 
-		office1.buttons.push_back(meme::Button{office1.button_textures[0],{350,500},{28,25},{door_f1_ld,door_f1_lu}});
-		office1.buttons.push_back(meme::Button{office1.button_textures[0],{1050,800},{28,25},{door_f2_ld,door_f2_lu}});
+		office1.buttons.push_back(meme::Button{office1.button_textures[0],{200,450},{28,25},{door_f1_ld,door_f1_lu}});
+		office1.buttons.push_back(meme::Button{office1.button_textures[0],{970,450},{28,25},{door_f2_ld,door_f2_lu}});
 	}
 	catch(meme::Exeption x)
 	{

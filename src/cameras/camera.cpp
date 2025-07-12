@@ -10,7 +10,6 @@ int Camera::get_cameras_amount()
     return cameras_amount;
 }
 
-
 Camera::Camera(sf::Texture &texture_source, sf::IntRect texture_fragment ,sf::Vector2i size, std::vector<int> variants_val): texture_ptr{&texture_source}, size{size}
 {
     this->camera_id = cameras_amount;

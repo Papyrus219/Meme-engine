@@ -31,8 +31,6 @@ int main()
 		door2.door_sound = game.telephone.Get_sound_effect_ptr(0);
 		door2.light_sound = game.telephone.Get_sound_effect_ptr(1);
 
-		auto sound = game.telephone.Get_sound_effect_ptr(0);
-
 		std::function<void()> door_f1_cl = std::bind(&meme::Door::Close, &door1);
 		std::function<void()> door_f1_op = std::bind(&meme::Door::Open, &door1);
 		std::function<void()> door_f2_cl = std::bind(&meme::Door::Close, &door2);

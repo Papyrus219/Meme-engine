@@ -12,9 +12,17 @@ namespace meme {
 class Cameras: public Scene
 {
 public:
-    std::vector<Camera> cameras_vector{};
+    Cameras(std::string tex_path, sf::Vector2i size, std::vector<std::vector<int>> cam_val = {{}});
+
+    void Cameras_setup(std::vector<std::vector<int>> cam_val);
+    void Cameras_setup(std::vector<std::vector<int>> cam_val, std::vector<sf::Vector2i> cam_sizes);
+    sf::Vector2i standart_size{};
 private:
-    int actual_possition;
+    int actual_possition{};
+    std::vector<Camera> cameras_vector{};
+
+    sf::Texture texture{};
+    sf::Sprite sprite{texture};
 };
 
 }

@@ -3,6 +3,7 @@
 
 #include<SFML/Graphics.hpp>
 #include"office/office.hpp"
+#include"cameras/cameras.hpp"
 #include"system/scene.hpp"
 #include"system/telephone.hpp"
 
@@ -16,6 +17,7 @@ public:
 
     std::vector<std::pair<sf::RenderWindow*,Scene*>> windows{};
     std::vector<meme::Office> offices{};
+    std::vector<meme::Cameras> cameras{};
     Telephone telephone{};
 
     void Render_windows();

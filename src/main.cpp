@@ -1,7 +1,9 @@
 #include<iostream>
 #include<functional>
+#include<print>
 #include"game.hpp"
 #include"exceptions.hpp"
+#include<vector>
 
 int main()
 {
@@ -46,10 +48,22 @@ int main()
 
 		office1.buttons.push_back(meme::Button{office1.button_textures[0],{200,450},{28,25},{door_f1_ld,door_f1_lu}});
 		office1.buttons.push_back(meme::Button{office1.button_textures[0],{970,450},{28,25},{door_f2_ld,door_f2_lu}});
+
+		game.cameras.push_back(meme::Cameras{"../../img/cameras/cameras1.png",{1000,667}});
+		meme::Cameras &cameras1 = game.cameras[0];
+
+		cameras1.Cameras_setup({ {0,1,3,4,7,8,10,11},{0,1},{0,1},{0,13},{0,19},{0,3},{0,3},{0,1},{0,3},{0,1,7,8},{0,3,7,10}});
+		game.Resereve_new_window(cameras1,"Cameras",sf::VideoMode{{1000,667}});
+
+	}
+	catch(meme::Camera_Exeption x)
+	{
+		x.What_happen();
+		return 0;
 	}
 	catch(meme::Exeption x)
 	{
-		std::cerr << x.what_happen;
+		x.What_happen();
 		return 0;
 	}
 

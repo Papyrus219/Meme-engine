@@ -7,15 +7,19 @@
 namespace meme {
 
 /**
- * @todo write docs
+ * Class to handle cameras window.
  */
-class Cameras: public Scene
+class Cameras final: public Scene
 {
 public:
     Cameras(std::string tex_path, sf::Vector2i size, std::vector<std::vector<int>> cam_val = {{}});
+    Cameras(const Cameras &orginal);
+    Cameras(Cameras &&orginal);
 
-    void Cameras_setup(std::vector<std::vector<int>> cam_val);
-    void Cameras_setup(std::vector<std::vector<int>> cam_val, std::vector<sf::Vector2i> cam_sizes);
+    void Cameras_setup(std::vector<std::vector<int>> &&cam_val);
+    void Cameras_setup(std::vector<std::vector<int>> &&cam_val, std::vector<sf::Vector2i> &&cam_sizes);
+    void Render() override;
+    void Event() override;
     sf::Vector2i standart_size{};
 private:
     int actual_possition{};

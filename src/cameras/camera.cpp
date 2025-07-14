@@ -1,6 +1,8 @@
 #include "camera.hpp"
 #include "../exceptions.hpp"
 
+#include<iostream>
+
 using namespace meme;
 
 int Camera::cameras_amount{};
@@ -17,8 +19,11 @@ Camera::Camera(sf::Texture &texture_source, sf::IntRect texture_fragment ,sf::Ve
 
     for(int i=0;i<variants_val.size();i++)
     {
+        std::cerr << "Adding " << variants_val[i] << " for " << camera_id << '\n';
+
         this->variants[variants_val[i]] = {{size.x*i,texture_fragment.position.y},{size.x,size.y}};
     }
+    this->actual_variant = 0;
 }
 
 Camera::Camera(const Camera& orginal)
@@ -33,6 +38,7 @@ Camera::Camera(const Camera& orginal)
 
         this->texture_ptr = orginal.texture_ptr;
         this->size = orginal.size;
+        this->actual_variant = orginal.actual_variant;
 }
 
 Camera::Camera(Camera && orginal)
@@ -47,6 +53,7 @@ Camera::Camera(Camera && orginal)
 
     this->texture_ptr = orginal.texture_ptr;
     this->size = orginal.size;
+    this->actual_variant = orginal.actual_variant;
 }
 
 sf::IntRect Camera::Get_camera()
@@ -59,7 +66,7 @@ sf::IntRect Camera::Get_camera()
     }
     catch(const std::out_of_range& e)
     {
-        throw Camera_Exeption{"Camera variant: . Imposible on camera: ",camera_id,actual_variant};
+        throw Camera_Exeption{"Camera variant Imposible on camera. ",camera_id,actual_variant};
     }
 
     return result;

@@ -53,8 +53,8 @@ int main()
 		meme::Cameras &cameras1 = game.cameras[0];
 
 		cameras1.Cameras_setup({ {0,1,3,4,7,8,10,11},{0,1},{0,1},{0,13},{0,19},{0,3},{0,3},{0,1},{0,3},{0,1,7,8},{0,3,7,10}});
+		cameras1.Camera_panel_setup("../../img/cameras/camera_panel1.png",{300,300},{0,0},{{89,20},{49,61},{129,60},{18,125},{4,18},{223,23},{181,131},{94,160},{240,128},{104,240},{233,241}},{47,33});
 		game.Resereve_new_window(cameras1,"Cameras",sf::VideoMode{{1000,667}});
-
 	}
 	catch(meme::Camera_Exeption x)
 	{

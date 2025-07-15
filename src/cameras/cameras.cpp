@@ -21,6 +21,16 @@ Cameras::Cameras(std::string tex_path, sf::Vector2i size, std::vector<std::vecto
         Cameras_setup(std::move(cam_val));
         sprite.setTextureRect(cameras_vector[actual_possition].Get_camera());
     }
+
+    if(!font.openFromFile("../../fonts/ARIAL.TTF"))
+    {
+        throw Exeption{"Failed to load camera font."};
+    }
+    actual_camera.setFont(font);
+    actual_camera.setFillColor(sf::Color::Green);
+    actual_camera.setPosition({900,10});
+    actual_camera.setCharacterSize(24);
+
 }
 
 Cameras::Cameras ( const Cameras& orginal )
@@ -47,6 +57,14 @@ void Cameras::Render()
 {
     sprite.setTextureRect(cameras_vector[actual_possition].Get_camera());
     assigned_window->draw(sprite);
+    assigned_window->draw(camera_panel.sprite);
+    for(auto hitbox : camera_panel.hitboxes)
+    {
+        assigned_window->draw(hitbox);
+    }
+
+    actual_camera.setString("Cam " + std::to_string(actual_possition+1));
+    assigned_window->draw(actual_camera);
 }
 
 void Cameras::Event()
@@ -56,6 +74,15 @@ void Cameras::Event()
         if(event->is<sf::Event::MouseButtonPressed>())
         {
 
+            sf::Vector2f mose_pos{sf::Mouse::getPosition(*assigned_window)};
+            for(int i=0;i<camera_panel.hitboxes.size();i++)
+            {
+                if(camera_panel.hitboxes[i].getGlobalBounds().contains(mose_pos))
+                {
+                    actual_possition = i;
+                    break;
+                }
+            }
         }
         else if(event->is<sf::Event::Closed>())
         {
@@ -69,8 +96,6 @@ void Cameras::Cameras_setup(std::vector<std::vector<int>> &&cam_val)
 {
     for(int cam_set = 0;cam_set < cam_val.size(); cam_set++)
     {
-        std::cerr << cam_val.size() << " huh\n";
-
         cameras_vector.push_back(Camera{texture, {{0,standart_size.y*cam_set},{standart_size.x*static_cast<int>(cam_val[cam_set].size()),standart_size.y}}, standart_size, cam_val[cam_set]});
     }
 
@@ -91,3 +116,38 @@ void Cameras::Cameras_setup(std::vector<std::vector<int>> &&cam_val, std::vector
     }
 }
 
+void Cameras::Camera_panel_setup ( std::string tex_path, sf::Vector2i size, sf::Vector2f possition, std::vector<sf::Vector2i> hit_box_possitions, sf::Vector2f hit_box_size )
+{
+    if(!camera_panel.texture.loadFromFile(tex_path))
+    {
+        throw Exeption{"Failed to load texture of camera_panel."};
+    }
+    camera_panel.sprite.setTexture(camera_panel.texture,true);
+    camera_panel.sprite.setPosition(possition);
+    camera_panel.sprite.setTextureRect({{0,0},{size}});
+
+    for(int i=0;i<hit_box_possitions.size();i++)
+    {
+        camera_panel.hitboxes.push_back(sf::RectangleShape{hit_box_size});
+        camera_panel.hitboxes[i].setFillColor(sf::Color::Transparent);
+        camera_panel.hitboxes[i].setPosition({possition.x+hit_box_possitions[i].x , possition.y+hit_box_possitions[i].y});
+    }
+}
+
+void Cameras::Camera_panel_setup (std::string tex_path, sf::Vector2i size, sf::Vector2f possition, std::vector<sf::Vector2i> hit_box_possitions, std::vector<sf::Vector2f> hit_box_sizes)
+{
+    if(!camera_panel.texture.loadFromFile(tex_path))
+    {
+        throw Exeption{"Failed to load texture of camera_panel."};
+    }
+    camera_panel.sprite.setTexture(camera_panel.texture,true);
+    camera_panel.sprite.setPosition(possition);
+    camera_panel.sprite.setTextureRect({{0,0},{size}});
+
+    for(int i=0;i<hit_box_possitions.size();i++)
+    {
+        camera_panel.hitboxes.push_back(sf::RectangleShape{hit_box_sizes[i]});
+        camera_panel.hitboxes[i].setFillColor(sf::Color::Transparent);
+        camera_panel.hitboxes[i].setPosition({possition.x+hit_box_possitions[i].x , possition.y+hit_box_possitions[i].y});
+    }
+}

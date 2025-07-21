@@ -5,7 +5,6 @@
 
 namespace meme
 {
-    class Cameras;
 
 struct Camera_panel
 {

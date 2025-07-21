@@ -92,6 +92,14 @@ void Cameras::Event()
     }
 }
 
+Camera* Cameras::Get_camera_ptr ( int index )
+{
+    if(index < 0) return nullptr;
+    if(index >= cameras_vector.size()) return nullptr;
+
+    return &(cameras_vector[index]);
+}
+
 void Cameras::Cameras_setup(std::vector<std::vector<int>> &&cam_val)
 {
     for(int cam_set = 0;cam_set < cam_val.size(); cam_set++)

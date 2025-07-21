@@ -1,7 +1,7 @@
+#include<iostream>
 #include "camera.hpp"
 #include "../exceptions.hpp"
-
-#include<iostream>
+#include "../animatrons/animatron.hpp"
 
 using namespace meme;
 
@@ -71,6 +71,17 @@ sf::IntRect Camera::Get_camera()
 
     return result;
 }
+
+void Camera::Move_out ( Animatron& anim )
+{
+    this->actual_variant -= anim.value;
+}
+
+void Camera::Move_in ( Animatron& anim )
+{
+    this->actual_variant += anim.value;
+}
+
 
 Camera::~Camera()
 {

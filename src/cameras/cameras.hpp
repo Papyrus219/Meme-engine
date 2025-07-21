@@ -24,6 +24,8 @@ public:
     void Render() override;
     void Event() override;
 
+    Camera* Get_camera_ptr(int index);
+
     sf::Vector2i standart_size{};
     Camera_panel camera_panel{};
 private:

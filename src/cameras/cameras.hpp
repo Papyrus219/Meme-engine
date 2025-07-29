@@ -1,7 +1,7 @@
 #ifndef MEME_CAMERAS_H
 #define MEME_CAMERAS_H
 
-#include"../system/scene.hpp"
+#include"../scene.hpp"
 #include"camera.hpp"
 #include"camera_panel.hpp"
 

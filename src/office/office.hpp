@@ -3,9 +3,11 @@
 
 #include<SFML/Graphics.hpp>
 #include<vector>
+#include<memory>
 #include"button.hpp"
 #include"door.hpp"
-#include"../system/scene.hpp"
+#include"../scene.hpp"
+#include"../data handlers/parameters.hpp"
 
 namespace meme
 {
@@ -22,11 +24,13 @@ struct Office final : public Scene
     std::vector<sf::Texture> button_textures;
     std::vector<sf::Texture> door_textures;
 
+    std::shared_ptr<Parameters> parameters_ptr;
+
     sf::Texture texture{};
     sf::Sprite sprite{texture};
     sf::Vector2i size;
     sf::View view{};
-    bool power_off;
+    bool power_off{};
 
     void Load_button_textures(std::string path, int amount);
     void Load_door_textures(std::string path, int amount);
@@ -34,6 +38,7 @@ struct Office final : public Scene
     void Render() override final;
     void Event() override final;
     void Power_off();
+    void Start_night();
 };
 
 }

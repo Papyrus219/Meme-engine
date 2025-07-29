@@ -14,25 +14,30 @@ namespace meme {
 class Animatron
 {
 public:
-    Animatron(int value, std::vector<int> move_path, Cameras &camera_system);
+    Animatron(int value, std::vector<int> move_path_, Cameras &camera_system, Office *office, int tic_duration_milisec);
     void Setup_jumpscare(sf::Texture &jump_tex, sf::Vector2i size, sf::IntRect assigned_tex_part, int frames_amount, int rows_amount=1);
-    const int value{-1};
-    const std::vector<int> move_path{};
+    const int value{};
+    int *move_path{};
+    int move_path_size{};
     int dificulty{};
     int current_possition{};
 
-    virtual void Under_door(Office *office) = 0;
-    bool Move(Office *office);
-    void Jumpscare(Scene *office);
-private:
+    virtual void Under_door() = 0;
+    virtual bool Move(sf::Time current_time);
+    void Jumpscare();
+
+protected:
     int frames_amount;
     sf::Texture *texture{};
-    sf::Sprite sprite{*texture};
+    sf::Sprite *sprite{};
     sf::Vector2i size{};
     sf::IntRect assigned_tex_part{};
     std::vector<sf::IntRect> frames{};
 
     Cameras *assign_camera_system{};
+    Office *assign_office;
+    sf::Time tic_duration{};
+    sf::Time current_tic_time{};
 };
 
 }

@@ -1,11 +1,22 @@
 #include <cstdlib>
 #include "animatron.hpp"
 #include "../exceptions.hpp"
+#include<iostream>
 
 using namespace meme;
 
-Animatron::Animatron ( int value, std::vector<int> move_path, Cameras &camera_system): value{value}, move_path{move_path}, assign_camera_system{&camera_system}
-{}
+Animatron::Animatron ( int value, std::vector<int> move_path_, Cameras &camera_system, Office *office, int tic_durration_milisec): value{value}, assign_camera_system{&camera_system}, assign_office{office}, tic_duration{sf::milliseconds(tic_durration_milisec)}
+{
+    move_path = new int[move_path_.size()];
+    for(int i=0;i<move_path_.size();i++)
+    {
+        move_path[i] = move_path_[i];
+    }
+    move_path_size = move_path_.size();
+
+    auto start_camera = assign_camera_system->Get_camera_ptr(move_path[0]);
+    start_camera->Move_in(*this);
+}
 
 void Animatron::Setup_jumpscare ( sf::Texture& jump_tex, sf::Vector2i size, sf::IntRect assigned_tex_part, int frames_amount, int rows_amount )
 {
@@ -30,57 +41,63 @@ void Animatron::Setup_jumpscare ( sf::Texture& jump_tex, sf::Vector2i size, sf::
         }
     }
 
-    this->sprite.setTexture(*texture);
-    this->sprite.setTextureRect(frames[0]);
+    this->sprite = new sf::Sprite{*texture};
+    this->sprite->setTexture(*texture, true);
+    this->sprite->setTextureRect(frames[0]);
 }
 
 
-bool Animatron::Move(Office *office)
+bool meme::Animatron::Move ( sf::Time current_time )
 {
     std::srand(std::time(NULL));
-    int rand_num = std::rand();
+    int rand_num = std::rand()%20;
 
+    if(current_time < current_tic_time) return false;
     if(rand_num > dificulty) return false;
 
-    if(current_possition >= move_path.size())
+    current_tic_time += tic_duration;
+    current_possition++;
+
+    std::cerr << "A: " << current_possition << " " << this->move_path[0] << "\n";
+
+    if(current_possition >= move_path_size)
     {
-        this->Under_door(office);
+        this->Under_door();
 
         return true;
     }
 
-    current_possition++;
-
-    if(current_possition >= 0 && move_path[current_possition] != move_path[current_possition-1])
+    if(current_possition > 0 && this->move_path[current_possition] != this->move_path[current_possition-1])
     {
-        auto camera = assign_camera_system->Get_camera_ptr(current_possition-1);
+        auto camera = assign_camera_system->Get_camera_ptr(this->move_path[current_possition-1]);
+
         camera->Move_out(*this);
     }
-    auto camera = assign_camera_system->Get_camera_ptr((current_possition));
+    auto camera = assign_camera_system->Get_camera_ptr(this->move_path[current_possition]);
     camera->Move_in(*this);
 
     return true;
 }
 
-void Animatron::Jumpscare ( Scene* office )
+void Animatron::Jumpscare ()
 {
     sf::Clock jumpscare_clock;
 
     while(jumpscare_clock.getElapsedTime().asMilliseconds() < 2200)
     {
         int frame_id = jumpscare_clock.getElapsedTime().asMilliseconds()/100;
-        sprite.setTextureRect(frames[frame_id]);
+        sprite->setTextureRect(frames[frame_id]);
 
-        office->assigned_window->clear();
-        office->Render();
-        office->assigned_window->draw(sprite);
-        office->assigned_window->display();
+        assign_office->assigned_window->clear();
+        assign_office->Render();
+        assign_office->assigned_window->draw(*sprite);
+        assign_office->assigned_window->display();
 
-        if(const std::optional event = office->assigned_window->pollEvent())
+        if(const std::optional event = assign_office->assigned_window->pollEvent())
         {
             if (event->is<sf::Event::Closed>())
             {
-                office->assigned_window->close();
+                assign_office->assigned_window->close();
                 return;
             }
         }

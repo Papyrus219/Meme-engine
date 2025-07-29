@@ -20,8 +20,8 @@ public:
     Camera(Camera &&orginal);
     ~Camera();
 
-    sf::Texture *texture_ptr;
-    sf::Vector2f size;
+    sf::Texture *texture_ptr{};
+    sf::Vector2f size{};
 
     static int get_cameras_amount();
     sf::IntRect Get_camera();
@@ -29,9 +29,9 @@ public:
     void Move_out(Animatron &anim);
 
 private:
-    int camera_id;
-    int actual_variant;
-    std::map<int,sf::IntRect> variants;
+    int camera_id{};
+    int actual_variant{};
+    std::map<int,sf::IntRect> variants{};
     static int cameras_amount;
 };
 

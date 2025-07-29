@@ -61,6 +61,15 @@ void Office::Render()
     assigned_window->setView(assigned_window->getDefaultView());
 }
 
+void Office::Start_night()
+{
+    for(auto door : doors)
+    {
+        door.Light_down();
+        door.Open();
+    }
+}
+
 void Office::Event()
 {
     while (const std::optional event = assigned_window->pollEvent())

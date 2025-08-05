@@ -6,7 +6,7 @@
 #include<memory>
 #include"button.hpp"
 #include"door.hpp"
-#include"../scene.hpp"
+#include"../window system/scene.hpp"
 #include"../data handlers/parameters.hpp"
 
 namespace meme

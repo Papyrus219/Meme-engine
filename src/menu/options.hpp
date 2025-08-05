@@ -2,38 +2,45 @@
 #define MEME_OPTIONS_H
 #include<SFML/Audio.hpp>
 #include<SFML/Graphics.hpp>
-#include"../data handlers/telephone.hpp"
+#include"volume_manipulator.hpp"
+#include"../data handlers/audio_manager.hpp"
 #include"menu_button.hpp"
-#include"../scene.hpp"
+#include"../window system/scene.hpp"
 
 namespace meme {
 
 /**
  * @todo write docs
  */
-struct Options: public Scene
+class Options: public Scene
 {
-    Options(std::string tex_path, sf::Vector2i size, Telephone &telephone);
+public:
 
-    void Up(int &x);
-    void Down(int &x);
+    Options(std::string tex_path, sf::Vector2i size, Audio_manager &telephone);
+    void Setup_sound_manipulators(std::string icon_tex_path, std::string buttons_tex_path, std::vector< std::pair<sf::IntRect,int> > buttons_rect, std::vector< std::pair<sf::IntRect,int> > icon_rects);
+
     void Update();
-    //void Render() override;
-    //void Event() override;
+    void Render() override;
+    void Event() override;
 
-    std::vector<Menu_button> buttons;
-    int jumpscare_volume{};
-    int clues_volume{};
-    int efect_volume{};
-    int dialog_volume{};
-    int music_volume{};
-    bool meme_man_size{};
+private:
 
-    sf::Texture texture{};
-    sf::Sprite sprite{texture};
+    std::vector<Volume_manipulator> volume_manipulators{};
+
+    int jumpscare_volume{100};
+    int clues_volume{100};
+    int efect_volume{100};
+    int dialog_volume{100};
+    int music_volume{100};
+
+    sf::Texture icon_textures{};
+    sf::Texture buttons_textures{};
+
+    sf::Texture background_texture{};
+    sf::Sprite background_sprite{background_texture};
     sf::Vector2i size;
 
-    Telephone *telephone_ptr{};
+    Audio_manager *assigned_audio_manager{};
 };
 
 }

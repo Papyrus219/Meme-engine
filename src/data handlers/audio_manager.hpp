@@ -1,5 +1,5 @@
-#ifndef TELEPHONE
-#define TELEPHONE
+#ifndef AUDIO_MANAGER
+#define AUDIO_MANAGER
 
 #include<SFML/Audio.hpp>
 #include<vector>
@@ -7,11 +7,11 @@
 namespace meme
 {
 
-class Telephone
+class Audio_manager
 {
 public:
-    Telephone(std::string audio_path, int jumpscares_amount=0, int sound_clues_amount=0, int sound_effects_amount=0, int phone_guy_amount=0, int tracks_amount=0);
-    Telephone() = default;
+    Audio_manager(std::string audio_path, int jumpscares_amount=0, int sound_clues_amount=0, int sound_effects_amount=0, int phone_guy_amount=0, int tracks_amount=0);
+    Audio_manager() = default;
 
     void Load_jumpscares_sounds(int jumpscares_amount);
     void Load_sound_clues(int sound_clues_amount);
@@ -30,6 +30,8 @@ public:
     int Get_sound_effects_amount(){return sound_effects_sounds.size();};
     int Get_phone_calls_amount(){return phone_guy_sounds.size();};
     int Get_sound_track_amount(){return soundtrack.size();};
+
+    void Change_volume(int jumpscare_volume, int sound_clues_volume, int sound_effects_volume, int phone_guy_volume, int soundtrack_volume);
 
 private:
     std::vector<sf::SoundBuffer> jumpscares_buffors{};

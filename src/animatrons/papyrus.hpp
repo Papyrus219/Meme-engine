@@ -2,7 +2,7 @@
 #define PAPYRUS_H
 
 #include "animatron.hpp"
-#include "../system/subject.hpp"
+#include "../event system/subject.hpp"
 #include<iostream>
 
 namespace meme

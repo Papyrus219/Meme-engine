@@ -4,7 +4,7 @@
 #include<SFML/Graphics.hpp>
 #include<SFML/Audio.hpp>
 #include<array>
-#include "../system/subject.hpp"
+#include "../event system/subject.hpp"
 
 namespace meme
 {

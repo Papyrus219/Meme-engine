@@ -12,19 +12,27 @@
 int main()
 {
 	meme::Game game{"../../audio/"};
+	meme::Sound_options options{"../../img/menu/options_background.png",{1200,1000},game.telephone};
+	sf::Font arrial{"../../fonts/ARIAL.TTF"};
 
 	try
 	{
 		game.telephone.Load_sound_effects(2);
 		game.time_manager.emplace(9,64780);
 
-		meme::Options options{"../../img/menu/options_background.png",{1200,1000},game.telephone};
+		options.Setup_buttons_textures("../../img/menu/sound_buttons.png",{200,200},3);
+		options.Setup_icons_textures("../../img/menu/sound_icons.png",{200,200},3);
 
-		sf::IntRect std_rect{{200,200},{100,300}};
+		auto option_button_textures = options.Get_buttons_texture_ptr();
+		auto option_icon_textures = options.Get_icons_texture_ptr();
 
-		options.Setup_sound_manipulators("../../img/menu/sound_icons.png","../../img/menu/sound_buttons.png",{{std_rect,5}},{{std_rect,5}});
+		options.volume_manipulators.emplace_back(&options.jumpscare_volume,*option_button_textures,*option_icon_textures,options.buttons_tex_rectangles[0],options.icons_tex_rectangles[0],sf::Vector2f{100,500},arrial);
+		options.volume_manipulators.emplace_back(&options.clues_volume,*option_button_textures,*option_icon_textures,options.buttons_tex_rectangles[0],options.icons_tex_rectangles[1],sf::Vector2f{100,600},arrial);
+		options.volume_manipulators.emplace_back(&options.efect_volume,*option_button_textures,*option_icon_textures,options.buttons_tex_rectangles[0],options.icons_tex_rectangles[2],sf::Vector2f{100,700},arrial);
+		options.volume_manipulators.emplace_back(&options.music_volume,*option_button_textures,*option_icon_textures,options.buttons_tex_rectangles[0],options.icons_tex_rectangles[0],sf::Vector2f{600,500},arrial);
+		options.volume_manipulators.emplace_back(&options.dialog_volume,*option_button_textures,*option_icon_textures,options.buttons_tex_rectangles[0],options.icons_tex_rectangles[1],sf::Vector2f{600,600},arrial);
 
-		game.window_manager.Resereve_new_window(options,"Options",sf::VideoMode{{1200,1000}});
+		//game.window_manager.Resereve_new_window(options,"Options",sf::VideoMode{{1200,1000}});
 
 		sf::Vector2i office_sprite_size{1200,1000};
 		game.offices.push_back(meme::Office{"../../img/office.png",office_sprite_size});
@@ -32,7 +40,7 @@ int main()
 		meme::Office &office1 = game.offices[0];
 		office1.parameters_ptr = std::make_shared<meme::Parameters>(50000);
 
-		//game.window_manager.Resereve_new_window(office1,"Office",sf::VideoMode{{1200,1000}});
+		game.window_manager.Resereve_new_window(office1,"Office",sf::VideoMode{{1200,1000}});
 
 		office1.Load_door_textures("../../img/doors",1);
 		office1.Load_button_textures("../../img/buttons",1);
@@ -88,7 +96,7 @@ int main()
 		std::vector<sf::Vector2i> camera_panel_hitboxes_possitions{{89,20},{49,61},{129,60},{18,125},{4,18},{223,23},{181,131},{94,160},{240,128},{104,240},{233,241}};
 		sf::Vector2f camera_panel_hit_box_size{47,33};
 		cameras1.Camera_panel_setup("../../img/cameras/camera_panel1.png",camera_panel_sprite_size,camera_panel_possition,camera_panel_hitboxes_possitions,camera_panel_hit_box_size);
-		//game.window_manager.Resereve_new_window(cameras1,"Cameras",sf::VideoMode{{1000,667}});
+		game.window_manager.Resereve_new_window(cameras1,"Cameras",sf::VideoMode{{1000,667}});
 
 		game.jumpscare_textures.emplace_back("../../img/animatrons/Jumpscares1.png");
 

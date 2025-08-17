@@ -12,26 +12,36 @@ namespace meme {
 /**
  * @todo write docs
  */
-class Options: public Scene
+class Sound_options: public Scene
 {
 public:
 
-    Options(std::string tex_path, sf::Vector2i size, Audio_manager &telephone);
-    void Setup_sound_manipulators(std::string icon_tex_path, std::string buttons_tex_path, std::vector< std::pair<sf::IntRect,int> > buttons_rect, std::vector< std::pair<sf::IntRect,int> > icon_rects);
+    Sound_options(std::string tex_path, sf::Vector2i size, Audio_manager &telephone);
 
     void Update();
     void Render() override;
     void Event() override;
 
-private:
+    void Setup_buttons_textures(std::string texture_path,sf::Vector2i button_size, int buttons_amount);
+    void Setup_buttons_textures(std::string texture_path, std::vector<sf::Vector2i> &button_sizes);
+    void Setup_icons_textures(std::string texture_path,sf::Vector2i icon_size, int icons_amount);
+    void Setup_icons_textures(std::string texture_path, std::vector<sf::Vector2i> &icon_sizes);
 
-    std::vector<Volume_manipulator> volume_manipulators{};
+    const sf::Texture* Get_buttons_texture_ptr() {return &buttons_textures;};
+    const sf::Texture* Get_icons_texture_ptr() {return &icon_textures;};
 
     int jumpscare_volume{100};
     int clues_volume{100};
     int efect_volume{100};
     int dialog_volume{100};
     int music_volume{100};
+
+    std::vector<Volume_manipulator> volume_manipulators{};
+
+    std::vector<sf::IntRect> buttons_tex_rectangles{};
+    std::vector<sf::IntRect> icons_tex_rectangles{};
+
+private:
 
     sf::Texture icon_textures{};
     sf::Texture buttons_textures{};

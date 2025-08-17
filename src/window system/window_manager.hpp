@@ -14,7 +14,7 @@ struct Window_manager
 {
     bool Is_any_window_open();
     void Resereve_new_window(Scene &scene,std::string window_name, sf::VideoMode window_size);
-    void Free_window(int winow_id);
+    void Free_window(int window_id);
 
     void Render_windows();
     void Events();

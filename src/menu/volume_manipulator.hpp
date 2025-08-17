@@ -12,7 +12,7 @@ namespace meme {
 class Volume_manipulator
 {
 public:
-    Volume_manipulator(int *parameter, sf::Texture &button_texture, sf::Texture &icon_texture, sf::IntRect button_rect, sf::IntRect icon_rect, sf::Vector2f possition);
+    Volume_manipulator(int *parameter, const sf::Texture &button_texture, const sf::Texture &icon_texture, sf::IntRect button_rect, sf::IntRect icon_rect, sf::Vector2f possition, sf::Font &font);
     void Render(sf::RenderWindow *assign_window);
     bool Click(sf::Vector2f mouse_possition);
 
@@ -22,10 +22,13 @@ private:
     sf::Vector2i possition{};
     sf::IntRect button_tex_fragment{};
     sf::IntRect icon_tex_fragment{};
-    sf::Texture *assign_button_texture{};
-    sf::Texture *assign_icon_texture{};
+    const sf::Texture *assign_button_texture{};
+    const sf::Texture *assign_icon_texture{};
     std::array<sf::Sprite,2> button_sprites{sf::Sprite{*assign_button_texture},sf::Sprite{*assign_button_texture}};
     sf::Sprite icon_sprite{*assign_icon_texture};
+
+    sf::Font font{};
+    sf::Text vareible_string{font,""};
 };
 
 }

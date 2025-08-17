@@ -1,7 +1,7 @@
 #ifndef MEME_MENU_H
 #define MEME_MENU_H
 
-#include"menu_button.hpp"
+#include"../window system/scene.hpp"
 
 namespace meme
 {
@@ -9,7 +9,7 @@ namespace meme
 /**
  * Class wich represent menu open on start of the game.
  */
-class Menu
+class Menu: public Scene
 {
 public:
     Menu(std::string tex_path, sf::Vector2i size);
@@ -23,17 +23,13 @@ public:
     void Options();
     void Exit();
 
-    std::vector<Menu_button> option_buttons{};
-    sf::RenderWindow *assigned_window;
-    int window_id;
-
 protected:
-    sf::Texture texture{};
-    sf::Sprite sprite{texture};
-    sf::Vector2i size{};
+    sf::Texture background_texture{};
+    sf::Sprite background_sprite{background_texture};
+    sf::Vector2i background_size{};
 
-    std::vector<sf::Texture> button_textures;
-
+    sf::Texture button_texture;
+    std::vector<sf::Sprite> buttons_sprites;
 };
 
 }

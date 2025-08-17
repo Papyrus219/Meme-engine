@@ -58,7 +58,7 @@ bool meme::Animatron::Move ( sf::Time current_time )
     current_tic_time += tic_duration;
     current_possition++;
 
-    std::cerr << "A: " << current_possition << " " << this->move_path[0] << "\n";
+    std::cerr << "TIC: " << current_possition << " " << this->move_path[0] << "\n";
 
     if(current_possition >= move_path_size)
     {

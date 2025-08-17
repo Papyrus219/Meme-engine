@@ -4,20 +4,20 @@ using namespace meme;
 
 Office::Office(std::string tex_path, sf::Vector2i size): size{size}
 {
-    if(!texture.loadFromFile(tex_path))
+    if(!background_texture.loadFromFile(tex_path))
     {
         throw Exeption{"Failed to load office texture!\n"};
     }
 
-    this->sprite.setTexture(texture,true);
+    this->background_sprite.setTexture(background_texture,true);
 
     view = sf::View{{size.x*0.5f, size.y*0.5f} ,{size.x*0.5f, size.y*1.0f}};
 }
 
 Office::Office(const Office &orginal)
 {
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
+    this->background_texture = orginal.background_texture;
+    this->background_sprite.setTexture(this->background_texture,true);
     this->size = orginal.size;
 
     for(auto door : orginal.doors)
@@ -28,8 +28,8 @@ Office::Office(const Office &orginal)
 
 Office::Office(Office &&orginal)
 {
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
+    this->background_texture = orginal.background_texture;
+    this->background_sprite.setTexture(this->background_texture,true);
     this->size = orginal.size;
 
     for(auto door : orginal.doors)
@@ -48,7 +48,7 @@ void Office::Render()
     //assigned_window->setView(view);
 
 
-    assigned_window->draw(sprite);
+    assigned_window->draw(background_sprite);
     for(auto &door : doors)
     {
         assigned_window->draw(*door.Get_sprite_ptr());

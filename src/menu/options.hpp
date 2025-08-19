@@ -4,7 +4,6 @@
 #include<SFML/Graphics.hpp>
 #include"volume_manipulator.hpp"
 #include"../data handlers/audio_manager.hpp"
-#include"menu_button.hpp"
 #include"../window system/scene.hpp"
 
 namespace meme {
@@ -45,10 +44,6 @@ private:
 
     sf::Texture icon_textures{};
     sf::Texture buttons_textures{};
-
-    sf::Texture background_texture{};
-    sf::Sprite background_sprite{background_texture};
-    sf::Vector2i size;
 
     Audio_manager *assigned_audio_manager{};
 };

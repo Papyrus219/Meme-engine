@@ -40,7 +40,7 @@ int main()
 		meme::Office &office1 = game.offices[0];
 		office1.parameters_ptr = std::make_shared<meme::Parameters>(50000);
 
-		game.window_manager.Resereve_new_window(office1,"Office",sf::VideoMode{{1200,1000}});
+		game.window_manager.Resereve_new_window(office1,"Office");
 
 		office1.Load_door_textures("../../img/doors",1);
 		office1.Load_button_textures("../../img/buttons",1);
@@ -85,7 +85,7 @@ int main()
 		office1.buttons.push_back(meme::Button{office1.button_textures[0],light_button2_possition,light_button_size,{door2_f_light_down,door2_f_light_up}});
 
 		sf::Vector2i camera_sprite_size{1000,667};
-		game.cameras.push_back(meme::Cameras{"../../img/cameras/cameras1.png",camera_sprite_size});
+		game.cameras.push_back(meme::Cameras{"../../img/cameras/cameras1.png",camera_sprite_size,camera_sprite_size});
 		meme::Cameras &cameras1 = game.cameras[0];
 
 		std::vector<std::vector<int>> cameras_animatron_values{{0,1,3,4,7,8,10,11},{0,1},{0,1},{0,13,26,39,52,65},{0,19},{0,3},{0,3},{0,1},{0,3},{0,1,7,8},{0,3,7,10}};
@@ -96,7 +96,7 @@ int main()
 		std::vector<sf::Vector2i> camera_panel_hitboxes_possitions{{89,20},{49,61},{129,60},{18,125},{4,18},{223,23},{181,131},{94,160},{240,128},{104,240},{233,241}};
 		sf::Vector2f camera_panel_hit_box_size{47,33};
 		cameras1.Camera_panel_setup("../../img/cameras/camera_panel1.png",camera_panel_sprite_size,camera_panel_possition,camera_panel_hitboxes_possitions,camera_panel_hit_box_size);
-		game.window_manager.Resereve_new_window(cameras1,"Cameras",sf::VideoMode{{1000,667}});
+		game.window_manager.Resereve_new_window(cameras1,"Cameras");
 
 		game.jumpscare_textures.emplace_back("../../img/animatrons/Jumpscares1.png");
 

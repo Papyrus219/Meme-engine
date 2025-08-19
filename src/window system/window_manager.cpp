@@ -24,9 +24,37 @@ void Window_manager::Resereve_new_window ( Scene &scene, std::string window_name
     windows[windows.size()-1].first->create(window_size,window_name);
     scene.assigned_window = windows[windows.size()-1].first;
     scene.window_id = windows.size()-1;
+    scene.window_size = static_cast<sf::Vector2i>(window_size.size);
 
     return;
 }
+
+void Window_manager::Resereve_new_window ( Scene& scene, std::string window_name )
+{
+    scene.Assign_window_manager(*this);
+
+    for(int i=0;i<windows.size();i++)
+    {
+        if(windows[i].first == nullptr)
+        {
+            windows[i].first = new sf::RenderWindow;
+            windows[i].first->create(sf::VideoMode{static_cast<sf::Vector2u>(scene.window_size)},window_name);
+            windows[i].second = &scene;
+            scene.assigned_window = windows[i].first;
+            scene.window_id = i;
+
+            return;
+        }
+    }
+
+    windows.push_back({new sf::RenderWindow, &scene});
+    windows[windows.size()-1].first->create(sf::VideoMode{static_cast<sf::Vector2u>(scene.window_size)},window_name);
+    scene.assigned_window = windows[windows.size()-1].first;
+    scene.window_id = windows.size()-1;
+
+    return;
+}
+
 
 void Window_manager::Free_window(int window_id)
 {

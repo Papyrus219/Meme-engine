@@ -1,6 +1,7 @@
 #ifndef MEME_MENU_H
 #define MEME_MENU_H
 
+#include<functional>
 #include"../window system/scene.hpp"
 
 namespace meme
@@ -14,8 +15,11 @@ class Menu: public Scene
 public:
     Menu(std::string tex_path, sf::Vector2i size);
 
-    void Make_buttons ( std::string button_tex_path, int button_amount, sf::Vector2i button_size, sf::Vector2f possition );
-    void Make_buttons ( std::string button_tex_path, int button_amount, std::vector<sf::Vector2i> button_sizes, std::vector<sf::Vector2f> possitions );
+    void Make_buttons ( std::string button_tex_path, sf::Vector2i button_size, sf::Vector2f possition );
+    void Make_buttons ( std::string button_tex_path, std::vector<sf::Vector2i> button_sizes, std::vector<sf::Vector2f> possitions );
+
+    void Render() override;
+    void Event() override;
 
     void New_game();
     void Continue();
@@ -24,12 +28,11 @@ public:
     void Exit();
 
 protected:
-    sf::Texture background_texture{};
-    sf::Sprite background_sprite{background_texture};
-    sf::Vector2i background_size{};
+    sf::Vector2i window_size{};
 
-    sf::Texture button_texture;
+    sf::Texture buttons_textures;
     std::vector<sf::Sprite> buttons_sprites;
+    std::vector<void(Menu::*)()> buttons_functions{};
 };
 
 }

@@ -2,36 +2,21 @@
 #include"../exceptions.hpp"
 using namespace meme;
 
-Office::Office(std::string tex_path, sf::Vector2i size): size{size}
+Office::Office(std::string tex_path, sf::Vector2i size): Scene{tex_path,size}
 {
-    if(!background_texture.loadFromFile(tex_path))
-    {
-        throw Exeption{"Failed to load office texture!\n"};
-    }
-
-    this->background_sprite.setTexture(background_texture,true);
-
     view = sf::View{{size.x*0.5f, size.y*0.5f} ,{size.x*0.5f, size.y*1.0f}};
 }
 
-Office::Office(const Office &orginal)
+Office::Office(const Office &orginal): Scene{orginal}
 {
-    this->background_texture = orginal.background_texture;
-    this->background_sprite.setTexture(this->background_texture,true);
-    this->size = orginal.size;
-
     for(auto door : orginal.doors)
         this->doors.push_back(door);
     for(auto button : orginal.buttons)
         this->buttons.push_back(button);
 }
 
-Office::Office(Office &&orginal)
+Office::Office(Office &&orginal): Scene{orginal}
 {
-    this->background_texture = orginal.background_texture;
-    this->background_sprite.setTexture(this->background_texture,true);
-    this->size = orginal.size;
-
     for(auto door : orginal.doors)
         this->doors.push_back(door);
     for(auto button : orginal.buttons)
@@ -48,7 +33,7 @@ void Office::Render()
     //assigned_window->setView(view);
 
 
-    assigned_window->draw(background_sprite);
+    assigned_window->draw(*background_sprite);
     for(auto &door : doors)
     {
         assigned_window->draw(*door.Get_sprite_ptr());

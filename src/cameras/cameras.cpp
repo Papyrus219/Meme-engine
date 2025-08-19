@@ -4,22 +4,15 @@
 
 using namespace meme;
 
-Cameras::Cameras(std::string tex_path, sf::Vector2i size, std::vector<std::vector<int>> cam_val)
+Cameras::Cameras(std::string tex_path, sf::Vector2i camera_size, sf::Vector2i win_size, std::vector<std::vector<int>> cam_val): Scene{tex_path,win_size}
 {
-    if(!texture.loadFromFile(tex_path))
-    {
-        throw Exeption{"Failed to load cameras textures!"};
-    }
-
-    sprite.setTexture(texture,true);
-    standart_size = size;
-
+    standart_size = camera_size;
     actual_possition = 0;
 
     if(cam_val.size() > 1)
     {
         Cameras_setup(std::move(cam_val));
-        sprite.setTextureRect(cameras_vector[actual_possition].Get_camera());
+        background_sprite->setTextureRect(cameras_vector[actual_possition].Get_camera());
     }
 
     if(!font.openFromFile("../../fonts/ARIAL.TTF"))
@@ -33,30 +26,26 @@ Cameras::Cameras(std::string tex_path, sf::Vector2i size, std::vector<std::vecto
 
 }
 
-Cameras::Cameras ( const Cameras& orginal )
+Cameras::Cameras ( const Cameras& orginal ): Scene{orginal}
 {
     this->standart_size = orginal.standart_size;
     this->actual_possition = orginal.actual_possition;
     for(auto camera : orginal.cameras_vector)
         this->cameras_vector.push_back(camera);
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
 }
 
-Cameras::Cameras ( Cameras && orginal )
+Cameras::Cameras ( Cameras && orginal ): Scene{orginal}
 {
     this->standart_size = orginal.standart_size;
     this->actual_possition = orginal.actual_possition;
     for(auto camera : orginal.cameras_vector)
         this->cameras_vector.push_back(camera);
-    this->texture = orginal.texture;
-    this->sprite.setTexture(this->texture,true);
 }
 
 void Cameras::Render()
 {
-    sprite.setTextureRect(cameras_vector[actual_possition].Get_camera());
-    assigned_window->draw(sprite);
+    background_sprite->setTextureRect(cameras_vector[actual_possition].Get_camera());
+    assigned_window->draw(*background_sprite);
     assigned_window->draw(camera_panel.sprite);
     for(auto hitbox : camera_panel.hitboxes)
     {
@@ -106,10 +95,10 @@ void Cameras::Cameras_setup(std::vector<std::vector<int>> &&cam_val)
 {
     for(int cam_set = 0;cam_set < cam_val.size(); cam_set++)
     {
-        cameras_vector.push_back(Camera{texture, {{0,standart_size.y*cam_set},{standart_size.x*static_cast<int>(cam_val[cam_set].size()),standart_size.y}}, standart_size, cam_val[cam_set]});
+        cameras_vector.push_back(Camera{background_texture, {{0,standart_size.y*cam_set},{standart_size.x*static_cast<int>(cam_val[cam_set].size()),standart_size.y}}, standart_size, cam_val[cam_set]});
     }
 
-    sprite.setTextureRect(cameras_vector[actual_possition].Get_camera());
+    background_sprite->setTextureRect(cameras_vector[actual_possition].Get_camera());
 }
 
 void Cameras::Cameras_setup(std::vector<std::vector<int>> &&cam_val, std::vector<sf::Vector2i> &&cam_sizes)
@@ -120,7 +109,7 @@ void Cameras::Cameras_setup(std::vector<std::vector<int>> &&cam_val, std::vector
 
     for(int cam_set = 0;cam_set < cam_val.size(); cam_set++)
     {
-        cameras_vector.push_back(Camera{texture, {{0,current_possition.y},{cam_sizes[cam_set].x*static_cast<int>(cam_val[cam_set].size()),cam_sizes[cam_set].y}}, cam_sizes[cam_set], cam_val[cam_set]});
+        cameras_vector.push_back(Camera{background_texture, {{0,current_possition.y},{cam_sizes[cam_set].x*static_cast<int>(cam_val[cam_set].size()),cam_sizes[cam_set].y}}, cam_sizes[cam_set], cam_val[cam_set]});
 
         current_possition += cam_sizes[cam_set];
     }

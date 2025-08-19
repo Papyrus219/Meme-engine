@@ -4,15 +4,8 @@
 
 using namespace meme;
 
-Sound_options::Sound_options(std::string tex_path, sf::Vector2i size, Audio_manager& audio_manager): size{size}, assigned_audio_manager{&audio_manager}
+Sound_options::Sound_options(std::string tex_path, sf::Vector2i size, Audio_manager& audio_manager): Scene{tex_path,size}, assigned_audio_manager{&audio_manager}
 {
-
-    if(!background_texture.loadFromFile(tex_path))
-    {
-        throw Exeption{"Failed to load option texture!\n"};
-    }
-
-    background_sprite.setTexture(background_texture,true);
 
 }
 
@@ -28,7 +21,7 @@ void Sound_options::Render()
         throw Exeption{"Options render error: None window assigned!\n"};
     }
 
-    assigned_window->draw(background_sprite);
+    assigned_window->draw(*background_sprite);
 
     for(auto &manipulator : volume_manipulators)
     {

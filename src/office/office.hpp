@@ -26,9 +26,7 @@ struct Office final : public Scene
 
     std::shared_ptr<Parameters> parameters_ptr;
 
-    sf::Texture background_texture{};
-    sf::Sprite background_sprite{background_texture};
-    sf::Vector2i size;
+    sf::Vector2i window_size;
     sf::View view{};
     bool power_off{};
 

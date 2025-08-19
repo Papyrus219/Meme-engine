@@ -13,7 +13,7 @@ namespace meme {
 class Cameras final: public Scene
 {
 public:
-    Cameras(std::string tex_path, sf::Vector2i size, std::vector<std::vector<int>> cam_val = {{}});
+    Cameras(std::string tex_path, sf::Vector2i camera_size, sf::Vector2i win_size, std::vector<std::vector<int>> cam_val = {{}});
     Cameras(const Cameras &orginal);
     Cameras(Cameras &&orginal);
 
@@ -32,8 +32,6 @@ private:
     int actual_possition{};
     std::vector<Camera> cameras_vector{};
 
-    sf::Texture texture{};
-    sf::Sprite sprite{texture};
 
     sf::Font font{};
     sf::Text actual_camera{font};

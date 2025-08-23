@@ -6,6 +6,8 @@
 #include<memory>
 #include"office/office.hpp"
 #include"cameras/cameras.hpp"
+#include"menu/menu.hpp"
+#include"menu/sound_options.hpp"
 #include"data handlers/audio_manager.hpp"
 #include"data handlers/time_maneger.hpp"
 #include"animatrons/animatron.hpp"
@@ -26,6 +28,9 @@ public:
     Audio_manager telephone{};
     Window_manager window_manager;
     std::optional<Time_manager> time_manager;
+    std::optional<meme::Menu> menu{};
+    std::optional<meme::Sound_options> sound_options{};
+    bool game_loop{true};
 
     void Start_night();
     void End_night();

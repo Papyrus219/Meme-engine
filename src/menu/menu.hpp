@@ -6,14 +6,15 @@
 
 namespace meme
 {
+    class Game;
 
 /**
- * Class wich represent menu open on start of the game.
+ * @brief Class wich represent menu open on start of the game.
  */
-class Menu: public Scene
+class Menu final: public  Scene
 {
 public:
-    Menu(std::string tex_path, sf::Vector2i size);
+    Menu(std::string tex_path, sf::Vector2i size, Game &game);
 
     void Make_buttons ( std::string button_tex_path, sf::Vector2i button_size, sf::Vector2f possition );
     void Make_buttons ( std::string button_tex_path, std::vector<sf::Vector2i> button_sizes, std::vector<sf::Vector2f> possitions );
@@ -21,9 +22,9 @@ public:
     void Render() override;
     void Event() override;
 
-    void New_game();
-    void Continue();
-    void Custom_night();
+    void New_game(){};
+    void Continue(){};
+    void Custom_night(){};
     void Options();
     void Exit();
 
@@ -33,6 +34,8 @@ protected:
     sf::Texture buttons_textures;
     std::vector<sf::Sprite> buttons_sprites;
     std::vector<void(Menu::*)()> buttons_functions{};
+
+    Game *assigned_game{};
 };
 
 }

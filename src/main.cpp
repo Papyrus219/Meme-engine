@@ -6,19 +6,25 @@
 #include"event system/events.hpp"
 #include"exceptions.hpp"
 #include"animatrons/papyrus.hpp"
-#include"menu/options.hpp"
 
 
 int main()
 {
 	meme::Game game{"../../audio/"};
-	meme::Sound_options options{"../../img/menu/options_background.png",{1200,1000},game.telephone};
 	sf::Font arrial{"../../fonts/ARIAL.TTF"};
 
 	try
 	{
 		game.telephone.Load_sound_effects(2);
 		game.time_manager.emplace(9,64780);
+
+		game.menu.emplace("../../img/menu/menu.png",sf::Vector2i{1200,1000},game);
+		meme::Menu &menu = *game.menu;
+
+		menu.Make_buttons("../../img/menu/menu_buttons.png",{500,100},{300,200});
+
+		game.sound_options.emplace("../../img/menu/options_background.png",sf::Vector2i{1200,1000},game.telephone);
+		meme::Sound_options &options = *game.sound_options;
 
 		options.Setup_buttons_textures("../../img/menu/sound_buttons.png",{200,200},3);
 		options.Setup_icons_textures("../../img/menu/sound_icons.png",{200,200},3);
@@ -40,7 +46,7 @@ int main()
 		meme::Office &office1 = game.offices[0];
 		office1.parameters_ptr = std::make_shared<meme::Parameters>(50000);
 
-		game.window_manager.Resereve_new_window(office1,"Office");
+		//game.window_manager.Resereve_new_window(office1,"Office");
 
 		office1.Load_door_textures("../../img/doors",1);
 		office1.Load_button_textures("../../img/buttons",1);
@@ -96,7 +102,7 @@ int main()
 		std::vector<sf::Vector2i> camera_panel_hitboxes_possitions{{89,20},{49,61},{129,60},{18,125},{4,18},{223,23},{181,131},{94,160},{240,128},{104,240},{233,241}};
 		sf::Vector2f camera_panel_hit_box_size{47,33};
 		cameras1.Camera_panel_setup("../../img/cameras/camera_panel1.png",camera_panel_sprite_size,camera_panel_possition,camera_panel_hitboxes_possitions,camera_panel_hit_box_size);
-		game.window_manager.Resereve_new_window(cameras1,"Cameras");
+		//game.window_manager.Resereve_new_window(cameras1,"Cameras");
 
 		game.jumpscare_textures.emplace_back("../../img/animatrons/Jumpscares1.png");
 
@@ -106,6 +112,8 @@ int main()
 		papyrus->Setup_jumpscare(game.jumpscare_textures[0],{1200,1000},{{0,2000},{1320,2000}},22,2);
 		papyrus->dificulty = 20;
 		game.animatrons.push_back(std::static_pointer_cast<meme::Animatron>(papyrus));
+
+		game.window_manager.Resereve_new_window(menu,"Menu");
 	}
 	catch(meme::Camera_Exeption x)
 	{
@@ -122,13 +130,15 @@ int main()
 	{
 		game.Start_night();
 
-		while(game.window_manager.Is_any_window_open())
+		while(game.game_loop)
 		{
 			game.window_manager.Render_windows();
 			game.window_manager.Events();
 			game.Animatron_update();
 
 			game.Tic();
+
+			if(!game.window_manager.Is_any_window_open()) game.window_manager.Resereve_new_window(*game.menu,"Menu");
 		}
 	}
 	catch(meme::Camera_Exeption x)

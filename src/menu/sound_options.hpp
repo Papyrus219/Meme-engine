@@ -11,7 +11,7 @@ namespace meme {
 /**
  * @todo write docs
  */
-class Sound_options: public Scene
+class Sound_options final: public Scene
 {
 public:
 

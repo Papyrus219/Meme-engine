@@ -33,6 +33,7 @@ Scene::Scene ( std::string back_tex_path, sf::Vector2i size ): window_size{size}
 Scene::Scene ( const Scene& orginal )
 {
     this->background_texture = orginal.background_texture;
+    background_sprite.emplace(background_texture);
     this->background_sprite->setTexture(this->background_texture,true);
     this->window_size = orginal.window_size;
 }
@@ -40,6 +41,7 @@ Scene::Scene ( const Scene& orginal )
 Scene::Scene ( Scene && orginal )
 {
     this->background_texture = orginal.background_texture;
+    background_sprite.emplace(background_texture);
     this->background_sprite->setTexture(this->background_texture,true);
     this->window_size = orginal.window_size;
 }

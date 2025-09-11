@@ -7,12 +7,7 @@ using namespace meme;
 
 Animatron::Animatron ( int value, std::vector<int> move_path_, Cameras &camera_system, Office *office, int tic_durration_milisec): value{value}, assign_camera_system{&camera_system}, assign_office{office}, tic_duration{sf::milliseconds(tic_durration_milisec)}
 {
-    move_path = new int[move_path_.size()];
-    for(int i=0;i<move_path_.size();i++)
-    {
-        move_path[i] = move_path_[i];
-    }
-    move_path_size = move_path_.size();
+    move_path = move_path_;
 
     auto start_camera = assign_camera_system->Get_camera_ptr(move_path[0]);
     start_camera->Move_in(*this);
@@ -47,7 +42,7 @@ void Animatron::Setup_jumpscare ( sf::Texture& jump_tex, sf::Vector2i size, sf::
 }
 
 
-bool meme::Animatron::Move ( sf::Time current_time )
+bool meme::Animatron::Move_check( sf::Time current_time )
 {
     std::srand(std::time(NULL));
     int rand_num = std::rand()%20;
@@ -60,21 +55,7 @@ bool meme::Animatron::Move ( sf::Time current_time )
 
     std::cerr << "TIC: " << current_possition << " " << this->move_path[0] << "\n";
 
-    if(current_possition >= move_path_size)
-    {
-        this->Under_door();
-
-        return true;
-    }
-
-    if(current_possition > 0 && this->move_path[current_possition] != this->move_path[current_possition-1])
-    {
-        auto camera = assign_camera_system->Get_camera_ptr(this->move_path[current_possition-1]);
-
-        camera->Move_out(*this);
-    }
-    auto camera = assign_camera_system->Get_camera_ptr(this->move_path[current_possition]);
-    camera->Move_in(*this);
+    this->Move();
 
     return true;
 }

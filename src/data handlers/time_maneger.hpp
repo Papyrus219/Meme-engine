@@ -20,7 +20,7 @@ struct Time_manager
     sf::Time current_night_time{};
 
     int current_hour{};
-    int actual_night{};
+    int current_night{};
     bool custom_night{};
 };
 

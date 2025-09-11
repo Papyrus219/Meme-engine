@@ -2,7 +2,6 @@
 #include"../game.hpp"
 #include"../exceptions.hpp"
 
-
 using namespace meme;
 
 Menu::Menu ( std::string tex_path, sf::Vector2i size, Game &game ): Scene{tex_path,size}, assigned_game{&game}
@@ -99,10 +98,20 @@ void Menu::Event()
         }
         else if (event->is<sf::Event::Closed>())
         {
-            assigned_window->close();
+            Close();
             return;
         }
     }
+}
+
+void Menu::New_game()
+{
+    Close();
+
+    for(auto &office : assigned_game->offices)
+        assigned_game->window_manager.Resereve_new_window(office,"Office");
+    for(auto &camera : assigned_game->cameras)
+        assigned_game->window_manager.Resereve_new_window(camera,"Cameras");
 }
 
 void Menu::Options()

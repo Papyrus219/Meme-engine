@@ -46,7 +46,7 @@ void Sound_options::Event()
         }
         else if (event->is<sf::Event::Closed>())
         {
-            assigned_window->close();
+            Close();
             return;
         }
     }

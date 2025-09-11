@@ -1,5 +1,7 @@
 #include"office.hpp"
+#include"../cameras/cameras.hpp"
 #include"../exceptions.hpp"
+#include"../window system/window_manager.hpp"
 using namespace meme;
 
 Office::Office(std::string tex_path, sf::Vector2i size): Scene{tex_path,size}
@@ -72,10 +74,23 @@ void Office::Event()
         }
         else if (event->is<sf::Event::Closed>())
         {
-            assigned_window->close();
+            Close();
             return;
         }
     }
+}
+
+void meme::Office::Close()
+{
+    if(assigned_window != nullptr)
+    {
+        assign_windows_manager->Free_window(window_id);
+    }
+
+    assign_windows_manager = nullptr;
+
+    for(auto &camera : assign_cameras)
+        camera->Close();
 }
 
 void Office::Load_button_textures ( std::string path, int amount )
@@ -103,5 +118,23 @@ void Office::Load_door_textures ( std::string path, int amount )
         {
             throw Exeption{"Failed to load door texture number" + std::to_string(i) + "!"};
         }
+    }
+}
+
+void meme::Office::Assign_cameras ( Cameras &camera )
+{
+    assign_cameras.push_back(&camera);
+}
+
+void meme::Office::Unsign_cameras ( Cameras &camera )
+{
+    for(int i=0;i<assign_cameras.size();i++)
+    {
+        if(&camera == assign_cameras[i])
+        {
+            assign_cameras.erase(assign_cameras.begin() + 1);
+            return;
+        }
+
     }
 }

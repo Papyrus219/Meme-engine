@@ -75,7 +75,7 @@ void Cameras::Event()
         }
         else if(event->is<sf::Event::Closed>())
         {
-            assigned_window->close();
+            Close();
             return;
         }
     }

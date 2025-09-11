@@ -22,7 +22,7 @@ public:
     void Render() override;
     void Event() override;
 
-    void New_game(){};
+    void New_game();
     void Continue(){};
     void Custom_night(){};
     void Options();

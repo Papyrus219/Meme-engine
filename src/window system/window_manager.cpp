@@ -58,7 +58,7 @@ void Window_manager::Resereve_new_window ( Scene& scene, std::string window_name
 
 void Window_manager::Free_window(int window_id)
 {
-    delete windows[window_id].first;
+    if(windows[window_id].second->assigned_window != nullptr) delete windows[window_id].first;
     windows[window_id].second->assigned_window = nullptr;
     windows[window_id].second->window_id = -1;
     windows[window_id] = {nullptr,nullptr};
@@ -93,8 +93,6 @@ void Window_manager::Events()
         if(window != nullptr)
         {
             scene->Event();
-            if(!window->isOpen())
-                Free_window(i);
         }
     }
 }

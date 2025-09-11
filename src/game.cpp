@@ -1,7 +1,8 @@
 #include"game.hpp"
+#include"exceptions.hpp"
 using namespace meme;
 
-Game::Game(std::string audio_path): telephone{audio_path} {}
+Game::Game(std::string audio_path): audio_manager{audio_path} {}
 
 void Game::Animatron_update()
 {
@@ -9,7 +10,7 @@ void Game::Animatron_update()
 
     for(auto animatron : animatrons)
     {
-        animatron->Move(current_time);
+        animatron->Move_check(current_time);
     }
 
 }
@@ -50,4 +51,20 @@ void meme::Game::End_night()
     }
 
     time_manager->tic_clock.stop();
+}
+
+void meme::Game::Save_save()
+{
+    if(saver)
+        saver->Save(time_manager->current_night,stars,telephone->skipped_nights);
+    else
+        throw Exeption{"Try to save, to non existing Saver!"};
+}
+
+void meme::Game::Load_save()
+{
+    if(saver)
+        saver->Load(time_manager->current_night,stars,telephone->skipped_nights);
+    else
+        throw Exeption{"Try to save, to non existing Saver!"};
 }

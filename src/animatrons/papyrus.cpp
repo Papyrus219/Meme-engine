@@ -1,13 +1,18 @@
 #include"papyrus.hpp"
 using namespace meme;
 
+void Papyrus::Move()
+{
+
+}
+
 void Papyrus::Under_door ()
 {
     if(chill == 0 && rage == 0)
     {
         subject.Notify(Event::ENTER,Direction::LEFT);
 
-        auto camera = assign_camera_system->Get_camera_ptr(move_path[move_path_size-1]);
+        auto camera = assign_camera_system->Get_camera_ptr(move_path[move_path.size()-1]);
         camera->Move_out(*this);
     }
 
@@ -25,7 +30,7 @@ void Papyrus::Under_door ()
         if(chill >= 3)
         {
             subject.Notify(Event::LEAVE,Direction::LEFT);
-            current_possition = 0;
+            current_possition = 1;
             chill = 0;
             rage = 0;
         }

@@ -6,7 +6,7 @@
 #include"event system/events.hpp"
 #include"exceptions.hpp"
 #include"animatrons/papyrus.hpp"
-
+#include"data handlers/saver.hpp"
 
 int main()
 {
@@ -15,7 +15,7 @@ int main()
 
 	try
 	{
-		game.telephone.Load_sound_effects(2);
+		game.audio_manager.Load_sound_effects(2);
 		game.time_manager.emplace(9,64780);
 
 		game.menu.emplace("../../img/menu/menu.png",sf::Vector2i{1200,1000},game);
@@ -23,7 +23,7 @@ int main()
 
 		menu.Make_buttons("../../img/menu/menu_buttons.png",{500,100},{300,200});
 
-		game.sound_options.emplace("../../img/menu/options_background.png",sf::Vector2i{1200,1000},game.telephone);
+		game.sound_options.emplace("../../img/menu/options_background.png",sf::Vector2i{1200,1000},game.audio_manager);
 		meme::Sound_options &options = *game.sound_options;
 
 		options.Setup_buttons_textures("../../img/menu/sound_buttons.png",{200,200},3);
@@ -38,16 +38,10 @@ int main()
 		options.volume_manipulators.emplace_back(&options.music_volume,*option_button_textures,*option_icon_textures,options.buttons_tex_rectangles[0],options.icons_tex_rectangles[0],sf::Vector2f{600,500},arrial);
 		options.volume_manipulators.emplace_back(&options.dialog_volume,*option_button_textures,*option_icon_textures,options.buttons_tex_rectangles[0],options.icons_tex_rectangles[1],sf::Vector2f{600,600},arrial);
 
-		//game.window_manager.Resereve_new_window(options,"Options",sf::VideoMode{{1200,1000}});
-
-		sf::Vector2i office_sprite_size{1200,1000};
-		game.offices.push_back(meme::Office{"../../img/office.png",office_sprite_size});
+		game.offices.push_back(meme::Office{"../../img/office.png",{1200,1000}});
 
 		meme::Office &office1 = game.offices[0];
 		office1.parameters_ptr = std::make_shared<meme::Parameters>(50000);
-
-		//game.window_manager.Resereve_new_window(office1,"Office");
-
 		office1.Load_door_textures("../../img/doors",1);
 		office1.Load_button_textures("../../img/buttons",1);
 
@@ -65,10 +59,10 @@ int main()
 		left_door.subject.Add_observer(office1.parameters_ptr.get());
 		right_door.subject.Add_observer(office1.parameters_ptr.get());
 
-		left_door.door_sound = game.telephone.Get_sound_effect_ptr(0);
-		left_door.light_sound = game.telephone.Get_sound_effect_ptr(1);
-		right_door.door_sound = game.telephone.Get_sound_effect_ptr(0);
-		right_door.light_sound = game.telephone.Get_sound_effect_ptr(1);
+		left_door.door_sound = game.audio_manager.Get_sound_effect_ptr(0);
+		left_door.light_sound = game.audio_manager.Get_sound_effect_ptr(1);
+		right_door.door_sound = game.audio_manager.Get_sound_effect_ptr(0);
+		right_door.light_sound = game.audio_manager.Get_sound_effect_ptr(1);
 
 		std::function<void()> left_door_f_close = std::bind(&meme::Door::Close, &left_door);
 		std::function<void()> left_door_f_open = std::bind(&meme::Door::Open, &left_door);
@@ -102,7 +96,6 @@ int main()
 		std::vector<sf::Vector2i> camera_panel_hitboxes_possitions{{89,20},{49,61},{129,60},{18,125},{4,18},{223,23},{181,131},{94,160},{240,128},{104,240},{233,241}};
 		sf::Vector2f camera_panel_hit_box_size{47,33};
 		cameras1.Camera_panel_setup("../../img/cameras/camera_panel1.png",camera_panel_sprite_size,camera_panel_possition,camera_panel_hitboxes_possitions,camera_panel_hit_box_size);
-		//game.window_manager.Resereve_new_window(cameras1,"Cameras");
 
 		game.jumpscare_textures.emplace_back("../../img/animatrons/Jumpscares1.png");
 
@@ -113,7 +106,12 @@ int main()
 		papyrus->dificulty = 20;
 		game.animatrons.push_back(std::static_pointer_cast<meme::Animatron>(papyrus));
 
+		office1.Assign_cameras(cameras1);
+
 		game.window_manager.Resereve_new_window(menu,"Menu");
+		//game.window_manager.Resereve_new_window(office1,"Office");
+		//game.window_manager.Resereve_new_window(cameras1,"Cameras");
+		//game.window_manager.Resereve_new_window(options,"Options",sf::VideoMode{{1200,1000}});
 	}
 	catch(meme::Camera_Exeption x)
 	{

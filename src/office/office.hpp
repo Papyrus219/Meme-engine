@@ -12,6 +12,8 @@
 namespace meme
 {
 
+class Cameras;
+
 struct Office final : public Scene
 {
     Office(std::string tex_path, sf::Vector2i size);
@@ -32,11 +34,17 @@ struct Office final : public Scene
 
     void Load_button_textures(std::string path, int amount);
     void Load_door_textures(std::string path, int amount);
+    void Assign_cameras( Cameras &camera);
+    void Unsign_cameras( Cameras &camera);
 
     void Render() override final;
     void Event() override final;
+    void Close() override;
     void Power_off();
     void Start_night();
+
+private:
+    std::vector<Cameras*> assign_cameras{};
 };
 
 }

@@ -2,7 +2,6 @@
 #include"exceptions.hpp"
 using namespace meme;
 
-Game::Game(std::string audio_path): audio_manager{audio_path} {}
 
 void Game::Animatron_update()
 {
@@ -10,7 +9,8 @@ void Game::Animatron_update()
 
     for(auto animatron : animatrons)
     {
-        animatron->Move_check(current_time);
+        if( !animatron->moved )
+            animatron->Move_check(current_time);
     }
 
 }
@@ -21,8 +21,11 @@ void Game::Tic()
 
     time_manager->current_night_time += time_manager->tic_clock.getElapsedTime();
 
-    if((time_manager->current_night_time / time_manager->night_duration) > time_manager->current_hour) time_manager->current_hour++;
+    time_manager->tic_clock.restart();
+    for(auto &animatron : animatrons)
+        animatron->moved = false;
 
+    if((time_manager->current_night_time / time_manager->night_duration) > time_manager->current_hour) time_manager->current_hour++;
     if(time_manager->current_hour >= 6) End_night();
 }
 

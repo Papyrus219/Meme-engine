@@ -5,10 +5,8 @@
 
 using namespace meme;
 
-Animatron::Animatron ( int value, std::vector<int> move_path_, Cameras &camera_system, Office *office, int tic_durration_milisec): value{value}, assign_camera_system{&camera_system}, assign_office{office}, tic_duration{sf::milliseconds(tic_durration_milisec)}
+Animatron::Animatron ( int value, std::initializer_list<int> move_path_, Cameras &camera_system, Office *office, int tic_durration_milisec): value{value}, move_path{move_path_}, assign_camera_system{&camera_system}, assign_office{office}, tic_duration{sf::milliseconds(tic_durration_milisec)}
 {
-    move_path = move_path_;
-
     auto start_camera = assign_camera_system->Get_camera_ptr(move_path[0]);
     start_camera->Move_in(*this);
 }
@@ -45,15 +43,13 @@ void Animatron::Setup_jumpscare ( sf::Texture& jump_tex, sf::Vector2i size, sf::
 bool meme::Animatron::Move_check( sf::Time current_time )
 {
     std::srand(std::time(NULL));
-    int rand_num = std::rand()%20;
+    int rand_num = std::rand() % 20;
 
-    if(current_time < current_tic_time) return false;
-    if(rand_num > dificulty) return false;
+    if( current_time < tic_duration ) return false;
+    if( rand_num > dificulty ) return false;
 
-    current_tic_time += tic_duration;
     current_possition++;
-
-    std::cerr << "TIC: " << current_possition << " " << this->move_path[0] << "\n";
+    moved = true;
 
     this->Move();
 

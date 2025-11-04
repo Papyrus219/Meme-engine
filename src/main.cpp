@@ -6,24 +6,27 @@
 #include"event system/events.hpp"
 #include"exceptions.hpp"
 #include"animatrons/papyrus.hpp"
+#include"animatrons/light.hpp"
 #include"data handlers/saver.hpp"
 
 int main()
 {
-	meme::Game game{"../../audio/"};
+	meme::Game game{};
 	sf::Font arrial{"../../fonts/ARIAL.TTF"};
 
 	try
 	{
-		game.audio_manager.Load_sound_effects(2);
-		game.time_manager.emplace(9,64780);
+		game.time_manager.emplace(9,14780);
+
+		game.audio_manager.emplace("../../audio/");
+		game.audio_manager->Load_sound_effects(2);
 
 		game.menu.emplace("../../img/menu/menu.png",sf::Vector2i{1200,1000},game);
 		meme::Menu &menu = *game.menu;
 
 		menu.Make_buttons("../../img/menu/menu_buttons.png",{500,100},{300,200});
 
-		game.sound_options.emplace("../../img/menu/options_background.png",sf::Vector2i{1200,1000},game.audio_manager);
+		game.sound_options.emplace("../../img/menu/options_background.png",sf::Vector2i{1200,1000},*game.audio_manager);
 		meme::Sound_options &options = *game.sound_options;
 
 		options.Setup_buttons_textures("../../img/menu/sound_buttons.png",{200,200},3);
@@ -59,10 +62,10 @@ int main()
 		left_door.subject.Add_observer(office1.parameters_ptr.get());
 		right_door.subject.Add_observer(office1.parameters_ptr.get());
 
-		left_door.door_sound = game.audio_manager.Get_sound_effect_ptr(0);
-		left_door.light_sound = game.audio_manager.Get_sound_effect_ptr(1);
-		right_door.door_sound = game.audio_manager.Get_sound_effect_ptr(0);
-		right_door.light_sound = game.audio_manager.Get_sound_effect_ptr(1);
+		left_door.door_sound = game.audio_manager->Get_sound_effect_ptr(0);
+		left_door.light_sound = game.audio_manager->Get_sound_effect_ptr(1);
+		right_door.door_sound = game.audio_manager->Get_sound_effect_ptr(0);
+		right_door.light_sound = game.audio_manager->Get_sound_effect_ptr(1);
 
 		std::function<void()> left_door_f_close = std::bind(&meme::Door::Close, &left_door);
 		std::function<void()> left_door_f_open = std::bind(&meme::Door::Open, &left_door);
@@ -99,12 +102,19 @@ int main()
 
 		game.jumpscare_textures.emplace_back("../../img/animatrons/Jumpscares1.png");
 
-		std::shared_ptr<meme::Papyrus> papyrus = std::make_shared<meme::Papyrus>(1,std::vector{0,1,2,7,9},cameras1,&office1,20000);
+		std::shared_ptr<meme::Papyrus> papyrus = std::make_shared<meme::Papyrus>(1, std::initializer_list{0,1,2,7,9}, cameras1, &office1, 5000);
 		left_door.subject.Add_observer(papyrus.get());
 		papyrus->subject.Add_observer(&left_door);
 		papyrus->Setup_jumpscare(game.jumpscare_textures[0],{1200,1000},{{0,2000},{1320,2000}},22,2);
 		papyrus->dificulty = 20;
 		game.animatrons.push_back(std::static_pointer_cast<meme::Animatron>(papyrus));
+
+		std::shared_ptr<meme::Light> light = std::make_shared<meme::Light>(3,std::initializer_list<int>{0,5,8,6,8,10}, cameras1, &office1, 2500);
+		right_door.subject.Add_observer(light.get());
+		light->subject.Add_observer(&right_door);
+		light->Setup_jumpscare(game.jumpscare_textures[0],{1200,1000},{{0,6000},{1320,2000}},22,2);
+		light->dificulty = 20;
+		game.animatrons.push_back(std::static_pointer_cast<meme::Animatron>(light));
 
 		office1.Assign_cameras(cameras1);
 

@@ -21,14 +21,12 @@ namespace meme
 class Game
 {
 public:
-    Game(std::string audio_path);
-
     std::vector<meme::Office> offices{};
     std::vector<meme::Cameras> cameras{};
     std::vector<std::shared_ptr<meme::Animatron>> animatrons{};
     std::vector<sf::Texture> jumpscare_textures{};
-    Audio_manager audio_manager{};
     Window_manager window_manager;
+    std::optional<meme::Audio_manager> audio_manager{};
     std::optional<Time_manager> time_manager;
     std::optional<meme::Menu> menu{};
     std::optional<meme::Sound_options> sound_options{};

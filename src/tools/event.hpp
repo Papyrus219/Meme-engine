@@ -5,7 +5,8 @@ namespace meme
 {
     enum class Event
     {
-
+        none = 0,
+        jumpscare = 1,
     };
 }
 

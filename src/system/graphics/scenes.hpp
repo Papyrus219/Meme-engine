@@ -13,7 +13,7 @@ namespace meme
         menu = 3,
     };
 
-    std::string Get_string_for_scene(Scene scene);
+    std::string Get_string_for_scene(Scene scene) noexcept;
 }
 
 #endif

@@ -3,10 +3,15 @@
 
 void meme::Exception::Info()
 {
-    std::cerr << "Exeption happen: " << details << "\n";
+    std::cerr << "Execption happen: " << details << "\n";
 }
 
 void meme::Texture_exception::Info()
 {
-    std::cerr << "Texture exeption happen: " << details << "\n";
+    std::cerr << "Texture exception happen: " << details << "\n";
+}
+
+void meme::Camera_exception::Info()
+{
+    std::cerr << "Cameras exception happen: " << details << "\n";
 }

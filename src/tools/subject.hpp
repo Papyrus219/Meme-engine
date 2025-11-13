@@ -13,9 +13,9 @@ class Observer;
 class Subject
 {
 public:
-        void Notify(Event event);
-        void Add_observer(Observer *observer);
-        void Remove_observer(Observer *observer);
+        void Notify(Event event) noexcept;
+        void Add_observer(Observer *observer) noexcept;
+        void Remove_observer(Observer *observer) noexcept;
 private:
     std::vector<Observer*> observers;
 };

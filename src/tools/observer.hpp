@@ -10,8 +10,8 @@ namespace meme
 class Observer
 {
 public:
-    virtual void onNotify(Event event) = 0;
-    virtual ~Observer() = default;
+    virtual void onNotify(Event event) noexcept = 0;
+    virtual ~Observer() noexcept = default;
 };
 
 }

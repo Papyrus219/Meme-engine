@@ -2,7 +2,7 @@
 
 namespace meme
 {
-    std::string Get_string_for_scene(Scene scene)
+    std::string Get_string_for_scene(Scene scene) noexcept
     {
         switch(scene)
         {
@@ -13,10 +13,8 @@ namespace meme
             case Scene::menu:
                 return "Menu";
             default:
-                break;
+                return "";
         }
-
-        return "";
     }
 
 }

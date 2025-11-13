@@ -9,7 +9,7 @@ namespace meme
 struct Exception
 {
     Exception(std::string details_): details{details_} {};
-    void Info() virtual;
+    virtual void Info();
 
 protected:
     std::string details{};
@@ -17,7 +17,13 @@ protected:
 
 struct Texture_exception: public Exception
 {
-    Texture_exception(std::string details_): Exception{details} {};
+    Texture_exception(std::string details_): Exception{details_} {};
+    void Info() override;
+};
+
+struct Camera_exception: public Exception
+{
+    Camera_exception(std::string details_): Exception{details_} {};
     void Info() override;
 };
 

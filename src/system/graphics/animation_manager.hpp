@@ -12,13 +12,13 @@ namespace meme
 class Animation_manager
 {
 public:
-    bool Start_animation(sf::Texture *tex, sf::Vector2i frame_size_, int frames_amount_, int colums_amount_, int rows_amount_);
-    void Render_frame(sf::RenderWindow *window);
+    bool Start_animation(sf::Texture *tex, sf::Vector2i frame_size_, int frames_amount_, int colums_amount_, int rows_amount_) noexcept;
+    void Render_frame(sf::RenderWindow *window) noexcept;
 
-    bool Is_animation_in_progres() {return animation_in_progress;};
+    bool Is_animation_in_progres() noexcept {return animation_in_progress;};
 
 private:
-    void Finish_animation();
+    void Finish_animation() noexcept;
     sf::IntRect Calculate_texture_rectangle();
 
     bool animation_in_progress{};

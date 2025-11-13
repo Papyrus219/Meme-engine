@@ -2,7 +2,7 @@
 
 using namespace meme;
 
-bool meme::Animation_manager::Start_animation(sf::Texture* tex, sf::Vector2i frame_size_, int frames_amount_, int colums_amount_, int rows_amount_)
+bool meme::Animation_manager::Start_animation(sf::Texture* tex, sf::Vector2i frame_size_, int frames_amount_, int colums_amount_, int rows_amount_) noexcept
 {
     if(this->animation_in_progress) return false;
 
@@ -18,7 +18,7 @@ bool meme::Animation_manager::Start_animation(sf::Texture* tex, sf::Vector2i fra
     return true;
 }
 
-void meme::Animation_manager::Render_frame(sf::RenderWindow *window)
+void meme::Animation_manager::Render_frame(sf::RenderWindow *window) noexcept
 {
     if(!animation_in_progress) return;
 
@@ -38,7 +38,7 @@ void meme::Animation_manager::Render_frame(sf::RenderWindow *window)
     }
 }
 
-void meme::Animation_manager::Finish_animation()
+void meme::Animation_manager::Finish_animation() noexcept
 {
     animation_in_progress = false;
     frame_clock.reset();

@@ -1,13 +1,13 @@
 #include "./subject.hpp"
 #include "./observer.hpp"
 
-void meme::Subject::Notify(Event event)
+void meme::Subject::Notify(Event event) noexcept
 {
     for(auto observer : observers)
         observer->onNotify(event);
 }
 
-void meme::Subject::Add_observer(Observer* observer)
+void meme::Subject::Add_observer(Observer* observer) noexcept
 {
     for(int i=0;i<observers.size();i++)
     {
@@ -17,7 +17,7 @@ void meme::Subject::Add_observer(Observer* observer)
     observers.push_back(observer);
 }
 
-void meme::Subject::Remove_observer(Observer* observer)
+void meme::Subject::Remove_observer(Observer* observer) noexcept
 {
     for(int i=0;i<observers.size();i++)
     {
